@@ -1,10 +1,10 @@
-package me.lukaszpisarczyk.Backend;
+package me.lukaszpisarczyk.Hospital;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BackendApplicationTests {
+class HospitalApplicationTests {
 
 	@Test
 	void contextLoads() {
