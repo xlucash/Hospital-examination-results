@@ -10,9 +10,6 @@ import java.time.LocalDate;
 
 public class SignupRequest {
     @NotBlank
-    @Size(min = 3, max = 20)
-    private String username;
-    @NotBlank
     @Size(max = 50)
     @Email
     private String email;
@@ -46,14 +43,6 @@ public class SignupRequest {
     @NotBlank
     @Pattern(regexp = "^\\d{2}-\\d{3}$", message = "Niepraawidłowy format kodu pocztowego")
     private String postalCode;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getEmail() {
         return email;

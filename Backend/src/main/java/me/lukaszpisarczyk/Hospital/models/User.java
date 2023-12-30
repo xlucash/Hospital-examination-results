@@ -26,9 +26,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
-    @Size(max = 20)
-    private String username;
-    @NotBlank
     @Email(message = "Nieprawidłowy format adresu email")
     @Size(max = 50)
     private String email;
@@ -49,8 +46,7 @@ public class User {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    public User(String username, String email, String password, Person person, Address address) {
-        this.username = username;
+    public User(String email, String password, Person person, Address address) {
         this.email = email;
         this.password = password;
         this.person = person;

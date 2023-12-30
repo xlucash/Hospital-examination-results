@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserInfoResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -85,10 +85,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public MessageResponse registerUser(SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new MessageResponse("Error: Username is already taken!");
-        }
-
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new MessageResponse("Error: Email is already in use!");
         }
@@ -107,7 +103,7 @@ public class AuthServiceImpl implements AuthService {
                 signUpRequest.getPhoneNumber());
         person = personRepository.save(person);
 
-        User user = new User(signUpRequest.getUsername(),
+        User user = new User(
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
                 person,
