@@ -1,94 +1,79 @@
-<div>
-  <div>
-    @if (!isSuccessful) {
-    <form
-      name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
-      #f="ngForm"
-      novalidate
-    >
-      <div>
-        <label for="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          [(ngModel)]="form.username"
-          required
-          minlength="3"
-          maxlength="20"
-          #username="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
-        />
-        @if (username.errors && f.submitted) {
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Rejestracja</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div *ngIf="!isSuccessful">
+      <form name="form"
+            (ngSubmit)="f.form.valid && onSubmit()"
+            #f="ngForm"
+            novalidate>
+        
+        <!-- Username Field -->
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput
+                 type="text"
+                 name="username"
+                 [(ngModel)]="form.username"
+                 required
+                 minlength="3"
+                 maxlength="20"
+                 #username="ngModel">
+          <mat-error *ngIf="username.errors && f.submitted">
+            <div *ngIf="username.errors['required']">Username is required</div>
+            <div *ngIf="username.errors['minlength']">Username must be at least 3 characters</div>
+            <div *ngIf="username.errors['maxlength']">Username must be at most 20 characters</div>
+          </mat-error>
+        </mat-form-field>
+    
+        <!-- Email Field -->
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput
+                 type="email"
+                 name="email"
+                 [(ngModel)]="form.email"
+                 required
+                 email
+                 #email="ngModel">
+          <mat-error *ngIf="email.errors && f.submitted">
+            <div *ngIf="email.errors['required']">Email is required</div>
+            <div *ngIf="email.errors['email']">Email must be a valid email address</div>
+          </mat-error>
+        </mat-form-field>
+    
+        <!-- Password Field -->
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput
+                 type="password"
+                 name="password"
+                 [(ngModel)]="form.password"
+                 required
+                 minlength="6"
+                 #password="ngModel">
+          <mat-error *ngIf="password.errors && f.submitted">
+            <div *ngIf="password.errors['required']">Password is required</div>
+            <div *ngIf="password.errors['minlength']">Password must be at least 6 characters</div>
+          </mat-error>
+        </mat-form-field>
+    
+        <!-- Sign Up Button -->
         <div>
-          @if (username.errors['required']) {
-          <div>Username is required</div>
-          }
-          @if (username.errors['minlength']) {
-          <div>Username must be at least 3 characters</div>
-          }
-          @if (username.errors['maxlength']) {
-          <div>Username must be at most 20 characters</div>
-          }
+          <button mat-raised-button color="primary">Sign Up</button>
         </div>
-        }
-      </div>
-      <div>
-        <label for="email">Email</label>
-        <input
-          type="email"
-          name="email"
-          [(ngModel)]="form.email"
-          required
-          email
-          #email="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
-        />
-        @if (email.errors && f.submitted) {
-        <div>
-          @if (email.errors['required']) {
-          <div>Email is required</div>
-          }
-          @if (email.errors['email']) {
-          <div>Email must be a valid email address</div>
-          }
+    
+        <!-- Error Message -->
+        <div *ngIf="f.submitted && isSignUpFailed">
+          <mat-error>Signup failed!<br />{{ errorMessage }}</mat-error>
         </div>
-        }
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          [(ngModel)]="form.password"
-          required
-          minlength="6"
-          #password="ngModel"
-          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
-        />
-        @if (password.errors && f.submitted) {
-        <div>
-          @if (password.errors['required']) {
-          <div>Password is required</div>
-          }
-          @if (password.errors['minlength']) {
-          <div>Password must be at least 6 characters</div>
-          }
-        </div>
-        }
-      </div>
-      <div>
-        <button>Sign Up</button>
-      </div>
-
-      @if (f.submitted && isSignUpFailed) {
-      <div>
-        Signup failed!<br />{{ errorMessage }}
-      </div>
-      }
-    </form>
-    } @else {
-    <div>Your registration is successful!</div>
-    }
-  </div>
-</div>
+      </form>
+    </div>
+    
+    <div *ngIf="isSuccessful">
+      <span>Your registration is successful!</span>
+    </div>
+  </mat-card-content>
+</mat-card>
