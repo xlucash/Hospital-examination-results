@@ -82,4 +82,8 @@ public class JwtUtils {
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    public String getJwtCookie() {
+        return jwtCookie;
+    }
 }
