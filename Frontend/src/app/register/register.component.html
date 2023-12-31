@@ -1,79 +1,235 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Rejestracja</mat-card-title>
-  </mat-card-header>
-  
-  <mat-card-content>
-    <div *ngIf="!isSuccessful">
-      <form name="form"
-            (ngSubmit)="f.form.valid && onSubmit()"
-            #f="ngForm"
-            novalidate>
-        
-        <!-- Username Field -->
-        <mat-form-field>
-          <mat-label>Username</mat-label>
-          <input matInput
-                 type="text"
-                 name="username"
-                 [(ngModel)]="form.username"
-                 required
-                 minlength="3"
-                 maxlength="20"
-                 #username="ngModel">
-          <mat-error *ngIf="username.errors && f.submitted">
-            <div *ngIf="username.errors['required']">Username is required</div>
-            <div *ngIf="username.errors['minlength']">Username must be at least 3 characters</div>
-            <div *ngIf="username.errors['maxlength']">Username must be at most 20 characters</div>
-          </mat-error>
-        </mat-form-field>
-    
-        <!-- Email Field -->
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput
-                 type="email"
-                 name="email"
-                 [(ngModel)]="form.email"
-                 required
-                 email
-                 #email="ngModel">
-          <mat-error *ngIf="email.errors && f.submitted">
-            <div *ngIf="email.errors['required']">Email is required</div>
-            <div *ngIf="email.errors['email']">Email must be a valid email address</div>
-          </mat-error>
-        </mat-form-field>
-    
-        <!-- Password Field -->
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput
-                 type="password"
-                 name="password"
-                 [(ngModel)]="form.password"
-                 required
-                 minlength="6"
-                 #password="ngModel">
-          <mat-error *ngIf="password.errors && f.submitted">
-            <div *ngIf="password.errors['required']">Password is required</div>
-            <div *ngIf="password.errors['minlength']">Password must be at least 6 characters</div>
-          </mat-error>
-        </mat-form-field>
-    
-        <!-- Sign Up Button -->
-        <div>
-          <button mat-raised-button color="primary">Sign Up</button>
+<div class="container">
+  <div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-lg-6 col-md-9 col-sm-12">
+      <div class="card shadow">
+        <div class="card-body">
+          <h3 class="card-title text-center">Rejestracja</h3>
+          <div class="p-3">
+            <div *ngIf="!isSuccessful">
+              <form name="form"
+                    (ngSubmit)="f.form.valid && onSubmit()"
+                    #f="ngForm"
+                    novalidate>
+
+                <!-- Pole Email -->
+                <div class="form-group mb-3">
+                  <label for="email">Email</label>
+                  <input type="email"
+                         class="form-control"
+                         id="email"
+                         name="email"
+                         [(ngModel)]="form.email"
+                         required
+                         email
+                         #email="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && email.errors }">
+                  <div *ngIf="email.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="email.errors['required']">Email jest wymagany</div>
+                    <div *ngIf="email.errors['email']">Email musi być prawidłowy</div>
+                  </div>
+                </div>
+
+                <!-- Pole Hasło -->
+                <div class="form-group mb-3">
+                  <label for="password">Hasło</label>
+                  <input type="password"
+                         class="form-control"
+                         id="password"
+                         name="password"
+                         [(ngModel)]="form.password"
+                         required
+                         minlength="6"
+                         #password="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && password.errors }">
+                  <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="password.errors['required']">Hasło jest wymagane</div>
+                    <div *ngIf="password.errors['minlength']">Hasło musi mieć przynajmniej 6 znaków</div>
+                  </div>
+                </div>
+
+                <!-- Pole Imię -->
+                <div class="form-group mb-3">
+                  <label for="name">Imię</label>
+                  <input type="text"
+                         class="form-control"
+                         id="name"
+                         name="name"
+                         [(ngModel)]="form.name"
+                         required
+                         #name="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && name.errors }">
+                  <div *ngIf="name.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="name.errors['required']">Imię jest wymagane</div>
+                  </div>
+                </div>
+
+                <!-- Pole Nazwisko -->
+                <div class="form-group mb-3">
+                  <label for="surname">Nazwisko</label>
+                  <input type="text"
+                         class="form-control"
+                         id="surname"
+                         name="surname"
+                         [(ngModel)]="form.surname"
+                         required
+                         #surname="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && surname.errors }">
+                  <div *ngIf="surname.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="surname.errors['required']">Nazwisko jest wymagane</div>
+                  </div>
+                </div>
+
+                <!-- Pole Data Urodzenia -->
+                <div class="form-group mb-3">
+                  <label for="dateOfBirth">Data urodzenia</label>
+                  <input type="date"
+                         class="form-control"
+                         id="dateOfBirth"
+                         name="dateOfBirth"
+                         [(ngModel)]="form.dateOfBirth"
+                         required
+                         #dateOfBirth="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && dateOfBirth.errors }">
+                  <div *ngIf="dateOfBirth.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="dateOfBirth.errors['required']">Data urodzenia jest wymagana</div>
+                  </div>
+                </div>
+
+                <!-- Pole PESEL -->
+                <div class="form-group mb-3">
+                  <label for="pesel">PESEL</label>
+                  <input type="text"
+                         class="form-control"
+                         id="pesel"
+                         name="pesel"
+                         [(ngModel)]="form.pesel"
+                         required
+                         pattern="^\d{11}$"
+                         #pesel="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && pesel.errors }">
+                  <div *ngIf="pesel.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="pesel.errors['required']">PESEL jest wymagany</div>
+                    <div *ngIf="pesel.errors['pattern']">PESEL musi składać się z 11 cyfr</div>
+                  </div>
+                </div>
+
+                <!-- Pole Numer Telefonu -->
+                <div class="form-group mb-3">
+                  <label for="phoneNumber">Telefon</label>
+                  <input type="text"
+                         class="form-control"
+                         id="phoneNumber"
+                         name="phoneNumber"
+                         [(ngModel)]="form.phoneNumber"
+                         required
+                         #phoneNumber="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.errors }">
+                  <div *ngIf="phoneNumber.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="phoneNumber.errors['required']">Numer telefonu jest wymagany</div>
+                  </div>
+                </div>
+
+                <!-- Pole Adres -->
+                <div class="form-group mb-3">
+                  <label for="streetAddress">Adres</label>
+                  <input type="text"
+                         class="form-control"
+                         id="streetAddress"
+                         name="streetAddress"
+                         [(ngModel)]="form.streetAddress"
+                         required
+                         #streetAddress="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && streetAddress.errors }">
+                  <div *ngIf="streetAddress.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="streetAddress.errors['required']">Adres jest wymagany</div>
+                  </div>
+                </div>
+
+                <!-- Pole Numer Domu -->
+                <div class="form-group mb-3">
+                  <label for="house">Numer domu</label>
+                  <input type="text"
+                         class="form-control"
+                         id="house"
+                         name="house"
+                         [(ngModel)]="form.house"
+                         required
+                         #house="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && house.errors }">
+                  <div *ngIf="house.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="house.errors['required']">Numer domu jest wymagany</div>
+                  </div>
+                </div>
+
+                <!-- Pole Numer Mieszkania -->
+                <div class="form-group mb-3">
+                  <label for="apartment">Numer mieszkania</label>
+                  <input type="text"
+                         class="form-control"
+                         id="apartment"
+                         name="apartment"
+                         [(ngModel)]="form.apartment"
+                         required
+                         #apartment="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && apartment.errors }">
+                  <div *ngIf="apartment.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="apartment.errors['required']">Numer mieszkania jest wymagany</div>
+                  </div>
+                </div>
+
+                <!-- Pole Miasto -->
+                <div class="form-group mb-3">
+                  <label for="city">Miasto</label>
+                  <input type="text"
+                         class="form-control"
+                         id="city"
+                         name="city"
+                         [(ngModel)]="form.city"
+                         required
+                         #city="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && city.errors }">
+                  <div *ngIf="city.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="city.errors['required']">Miasto jest wymagane</div>
+                  </div>
+                </div>
+
+                <!-- Pole Kod Pocztowy -->
+                <div class="form-group mb-3">
+                  <label for="postalCode">Kod pocztowy</label>
+                  <input type="text"
+                         class="form-control"
+                         id="postalCode"
+                         name="postalCode"
+                         [(ngModel)]="form.postalCode"
+                         required
+                         #postalCode="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && postalCode.errors }">
+                  <div *ngIf="postalCode.errors && f.submitted" class="invalid-feedback">
+                    <div *ngIf="postalCode.errors['required']">Kod pocztowy jest wymagany</div>
+                  </div>
+                </div>
+
+                <!-- Przycisk Zarejestruj -->
+                <div class="text-center">
+                  <button type="submit" class="btn btn-default bg-primary text-white">Zarejestruj</button>
+                </div>
+
+                <!-- Komunikat o błędzie -->
+                <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-danger" role="alert">
+                  Rejestracja nie powiodła się!<br />{{ errorMessage }}
+                </div>
+
+              </form>
+            </div>
+            <div *ngIf="isSuccessful">
+              <div>Rejestracja przebiegła pomyślnie!</div>
+              <div class="text-center mt-3">
+                <a routerLink="/login" class="btn btn-primary">Przejdź do logowania</a>
+              </div>
+            </div>
+          </div>
         </div>
-    
-        <!-- Error Message -->
-        <div *ngIf="f.submitted && isSignUpFailed">
-          <mat-error>Signup failed!<br />{{ errorMessage }}</mat-error>
-        </div>
-      </form>
+      </div>
     </div>
-    
-    <div *ngIf="isSuccessful">
-      <span>Your registration is successful!</span>
-    </div>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>

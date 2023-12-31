@@ -1,46 +1,36 @@
 <div id="app">
-  <nav>
-    <a href="#">Hospital</a>
-    <ul routerLinkActive="active">
-      <li>
-        <a href="/home" routerLink="home">Home </a>
-      </li>
-      @if (showAdminBoard) {
-        <li>
-          <a href="/admin" routerLink="admin">Admin Board</a>
-        </li>
-      }
-      @if (showModeratorBoard) {
-        <li>
-          <a href="/mod" routerLink="mod">Moderator Board</a>
-        </li>
-      }
-      @if (isLoggedIn) {
-        <li>
-          <a href="/user" routerLink="user">User</a>
-        </li>
-      }
-    </ul>
-
-    @if (!isLoggedIn) {
-      <ul>
-        <li>
-          <a href="/register" routerLink="register">Sign Up</a>
-        </li>
-        <li>
-          <a href="/login" routerLink="login">Login</a>
-        </li>
-      </ul>
-    } @else {
-      <ul>
-        <li>
-          <a href="/profile" routerLink="profile">{{ username }}</a>
-        </li>
-        <li>
-          <a href (click)="logout()">LogOut</a>
-        </li>
-      </ul>
-    }
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Hospital</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                @if (isLoggedIn) {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Mój Profil</a>
+                    </li>
+                }
+            </ul>
+            @if (!isLoggedIn) {
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Zarejestruj się</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Zaloguj</a>
+                    </li>
+                </ul>
+            } @else {
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href (click)="logout()">Wyloguj</a>
+                    </li>
+                </ul>
+            }
+        </div>
+    </div>
   </nav>
 
   <div>

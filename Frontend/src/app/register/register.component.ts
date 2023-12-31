@@ -8,9 +8,18 @@ import { AuthService } from '../_services/auth.service';
 })
 export class RegisterComponent {
   form: any = {
-    username: null,
     email: null,
-    password: null
+    password: null,
+    name: null,
+    surname: null,
+    dateOfBirth: null,
+    pesel: null,
+    phoneNumber: null,
+    streetAddress: null,
+    house: null,
+    apartment: null,
+    city: null,
+    postalCode: null
   };
   isSuccessful = false;
   isSignUpFailed = false;
@@ -19,9 +28,35 @@ export class RegisterComponent {
   constructor(private authService: AuthService) { }
 
   onSubmit(): void {
-    const { username, email, password } = this.form;
+    const { 
+      email, 
+      password, 
+      name, 
+      surname, 
+      dateOfBirth, 
+      pesel, 
+      phoneNumber,
+      streetAddress, 
+      house, 
+      apartment, 
+      city, 
+      postalCode 
+    } = this.form;
 
-    this.authService.register(username, email, password).subscribe({
+    this.authService.register(
+      email,
+      password,
+      name,
+      surname,
+      dateOfBirth,
+      pesel,
+      phoneNumber,
+      streetAddress,
+      house,
+      apartment,
+      city,
+      postalCode
+    ).subscribe({
       next: data => {
         console.log(data);
         this.isSuccessful = true;
