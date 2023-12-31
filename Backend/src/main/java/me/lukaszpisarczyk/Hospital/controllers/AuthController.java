@@ -9,9 +9,7 @@ import me.lukaszpisarczyk.Hospital.dto.UserInfoResponse;
 import me.lukaszpisarczyk.Hospital.security.jwt.JwtUtils;
 import me.lukaszpisarczyk.Hospital.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +27,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         UserInfoResponse userInfoResponse = authService.authenticateUser(loginRequest);
-        ResponseCookie jwtCookie = authService.generateJwtCookie(userInfoResponse);
 
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(userInfoResponse);
+        return ResponseEntity.ok().body(userInfoResponse);
     }
 
     @PostMapping("/register")
@@ -42,12 +38,5 @@ public class AuthController {
             return ResponseEntity.badRequest().body(messageResponse);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(messageResponse);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<?> logoutUser() {
-        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(new MessageResponse("You've been signed out!"));
     }
 }

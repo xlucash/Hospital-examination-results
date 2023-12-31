@@ -65,22 +65,13 @@ public class AuthServiceImpl implements AuthService {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        String jwtToken = jwtUtils.generateTokenFromUsername(userDetails.getUsername());
+
         return new UserInfoResponse(userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                roles);
-    }
-
-    @Override
-    public ResponseCookie generateJwtCookie(UserInfoResponse userInfo) {
-        String jwtToken = jwtUtils.generateTokenFromUsername(userInfo.getUsername());
-        ResponseCookie cookie = ResponseCookie
-                .from(jwtUtils.getJwtCookie(), jwtToken)
-                .path("/api")
-                .maxAge(24 * 60 * 60)
-                .httpOnly(true)
-                .build();
-        return cookie;
+                roles,
+                jwtToken);
     }
 
     @Override

@@ -8,6 +8,5 @@ import org.springframework.http.ResponseCookie;
 
 public interface AuthService {
     UserInfoResponse authenticateUser(LoginRequest loginRequest);
-    ResponseCookie generateJwtCookie(UserInfoResponse userInfo);
     MessageResponse registerUser(SignupRequest signUpRequest);
 }
