@@ -9,6 +9,7 @@
               (ngSubmit)="f.form.valid && onSubmit()"
               #f="ngForm"
               novalidate
+              *ngIf="!isLoggedIn"
             >
               <div class="form-group mb-3">
                 <label for="email">Email:</label>
@@ -62,6 +63,9 @@
                 </div>
               </div>
             </form>
+            <div class="text-center" *ngIf="isLoggedIn">
+              <p>Zalogowano pomyślnie!</p>
+              <p>Przejdź do <a routerLink="/profile" class="text-primary">profilu</a></p>
           </div>
         </div>
       </div>

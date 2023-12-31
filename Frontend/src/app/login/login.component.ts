@@ -41,16 +41,15 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         this.roles = this.storageService.getUser().roles;
 
-        this.reloadPage();
+        this.router.navigate(['/profile'])
+        .then(() => {
+          window.location.reload();
+        });
       },
       error: err => {
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;
       }
     });
-  }
-
-  reloadPage(): void {
-    this.router.navigate(['/profile']);
   }
 }
