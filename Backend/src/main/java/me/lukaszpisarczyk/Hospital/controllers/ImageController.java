@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/image")
 @RequiredArgsConstructor
@@ -21,6 +24,21 @@ public class ImageController {
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile imageFile) throws IOException {
         String uploadImage = imageService.uploadImage(imageFile);
         return ResponseEntity.status(HttpStatus.CREATED).body(uploadImage);
+    }
+
+    @PostMapping("/multiple")
+    public ResponseEntity<?> uploadMultipleImages(@RequestParam("image") List<MultipartFile> images) throws IOException {
+        List<ResponseEntity<?>> list = new ArrayList<>();
+        for (MultipartFile image : images) {
+            ResponseEntity<?> responseEntity = uploadImage(image);
+            list.add(responseEntity);
+        }
+        return list.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toList(),
+                        ResponseEntity::ok
+                        )
+                );
     }
 
     @GetMapping("/{fileName}")
