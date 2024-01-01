@@ -11,7 +11,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "persons")
+@Table(name = "persons", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "pesel"),
+})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
