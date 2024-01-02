@@ -1,6 +1,7 @@
 package me.lukaszpisarczyk.Hospital.controllers;
 
 import lombok.RequiredArgsConstructor;
+import me.lukaszpisarczyk.Hospital.models.Image;
 import me.lukaszpisarczyk.Hospital.services.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/image")
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class ImageController {
 
     @PostMapping
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile imageFile) throws IOException {
-        String uploadImage = imageService.uploadImage(imageFile);
+        Image uploadImage = imageService.uploadImage(imageFile);
         return ResponseEntity.status(HttpStatus.CREATED).body(uploadImage);
     }
 

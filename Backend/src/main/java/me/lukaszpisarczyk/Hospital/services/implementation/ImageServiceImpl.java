@@ -1,12 +1,12 @@
 package me.lukaszpisarczyk.Hospital.services.implementation;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import me.lukaszpisarczyk.Hospital.models.Image;
 import me.lukaszpisarczyk.Hospital.repositories.ImageRepository;
 import me.lukaszpisarczyk.Hospital.services.ImageService;
 import me.lukaszpisarczyk.Hospital.utils.ImageUtils;
 import org.apache.commons.lang3.exception.ContextedRuntimeException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,19 +15,19 @@ import java.util.Optional;
 import java.util.zip.DataFormatException;
 
 @Service
-@RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
-    private final ImageRepository imageRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
     @Override
-    public String uploadImage(MultipartFile imageFile) throws IOException {
+    public Image uploadImage(MultipartFile imageFile) throws IOException {
         var imageToSave = Image.builder()
                 .name(imageFile.getOriginalFilename())
                 .type(imageFile.getContentType())
                 .imageData(ImageUtils.compressImage(imageFile.getBytes()))
                 .build();
 
-        imageRepository.save(imageToSave);
-        return "file uploaded successfully: " + imageFile.getOriginalFilename();
+        return imageRepository.save(imageToSave);
     }
 
     @Override

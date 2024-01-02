@@ -9,4 +9,6 @@ public interface UserService {
     User findByEmail (String email);
 
     User findUserByPesel (String pesel);
+
+    User retrieveUserFromToken();
 }
