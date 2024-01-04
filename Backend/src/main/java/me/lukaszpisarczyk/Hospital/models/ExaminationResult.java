@@ -31,10 +31,10 @@ public class ExaminationResult {
     private String description;
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     private LocalDate examinationDate = LocalDate.now();
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "patient_id")
     private User patient;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "doctor_id")
     private User doctor;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
