@@ -2,6 +2,7 @@ package me.lukaszpisarczyk.Hospital.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class ExaminationResult {
     @NotNull
     private String title;
     @NotNull
+    @Size(min = 10, max = 500)
     private String description;
     @DateTimeFormat(pattern = "MM/dd/yyyy")
     private LocalDate examinationDate = LocalDate.now();

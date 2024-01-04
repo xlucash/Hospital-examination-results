@@ -7,5 +7,6 @@ import java.io.IOException;
 
 public interface ImageService {
     Image uploadImage(MultipartFile imageFile) throws IOException;
-    byte[] downloadImage(String imageName);
+    byte[] downloadImage(Long imageId);
+    String getBase64Image(Long imageId);
 }

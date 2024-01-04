@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.zip.DataFormatException;
 
@@ -32,16 +33,26 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     @Transactional
-    public byte[] downloadImage(String imageName) {
-        Optional<Image> dbImage = imageRepository.findByName(imageName);
+    public byte[] downloadImage(Long imageId) {
+        Optional<Image> dbImage = imageRepository.findById(imageId);
         return dbImage.map(image -> {
             try {
                 return ImageUtils.decompressImage(image.getImageData());
             } catch (DataFormatException | IOException exception) {
                 throw new ContextedRuntimeException("Error downloading an image", exception)
                         .addContextValue("Image ID",  image.getId())
-                        .addContextValue("Image name", imageName);
+                        .addContextValue("Image name", image.getName());
             }
         }).orElse(null);
+    }
+
+    @Override
+    public String getBase64Image(Long imageId) {
+        byte[] imageData = downloadImage(imageId);
+        if (imageData != null) {
+            return Base64.getEncoder().encodeToString(imageData);
+        }
+
+        return null;
     }
 }

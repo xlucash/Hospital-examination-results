@@ -1,14 +1,20 @@
 package me.lukaszpisarczyk.Hospital.controllers;
 
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import lombok.RequiredArgsConstructor;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationRequestDto;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationResultDto;
 import me.lukaszpisarczyk.Hospital.models.ExaminationResult;
 import me.lukaszpisarczyk.Hospital.services.ExaminationResultService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.util.List;
 
@@ -17,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExaminationResultController {
     private final ExaminationResultService examinationResultService;
+    private final TemplateEngine templateEngine;
 
     @PostMapping
     public ResponseEntity<?> saveExaminationResult(
@@ -32,6 +39,21 @@ public class ExaminationResultController {
         return ResponseEntity.status(HttpStatus.OK).body(examinationResult);
     }
 
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<?> getExaminationResultPdf(@PathVariable Long id) {
+        try {
+            byte[] pdf = examinationResultService.processExaminationResultPdf(id);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "examination.pdf");
+
+            return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Błąd podczas generowania PDF", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/patient/{type}")
     public ResponseEntity<?> getExaminationResultByPatient(@PathVariable String type) {
     	List<ExaminationResultDto> examinationResult = examinationResultService.getExaminationResultByPatient(type);
@@ -43,5 +65,4 @@ public class ExaminationResultController {
     	List<ExaminationResultDto> examinationResult = examinationResultService.getExaminationResultByDoctor(type);
     	return ResponseEntity.status(HttpStatus.OK).body(examinationResult);
     }
-
 }

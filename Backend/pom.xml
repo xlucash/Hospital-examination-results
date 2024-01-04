@@ -61,6 +61,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
 			<version>0.12.3</version>
@@ -84,6 +88,24 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.14.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>kernel</artifactId>
+			<version>8.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>html2pdf</artifactId>
+			<version>5.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ognl</groupId>
+			<artifactId>ognl</artifactId>
+			<version>3.4.2</version>
 		</dependency>
 	</dependencies>
 

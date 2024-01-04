@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Wynik Badania</title>
+    <meta charset="UTF-8"/>
+    <style>
+        .examination-image {
+            width: 600px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Wynik Badania <span th:text="${examination.type}"></span></h1>
+    <p>
+        <strong>Data Badania:</strong> <span th:text="${examination.examinationDate}"></span>
+    </p>
+<h2>Pacjent</h2>
+    <p>
+        <strong>Imię:</strong> <span th:text="${examination.patient.person.name}"></span>
+        <strong>Nazwisko:</strong> <span th:text="${examination.patient.person.surname}"></span>
+    </p>
+    <p>
+        <strong>PESEL:</strong> <span th:text="${examination.patient.person.pesel}"></span>
+    </p>
+    <p>
+        <strong>Adres:</strong> <span th:text="${examination.patient.address.streetAddress}"></span>
+        <span th:text="${examination.patient.address.house}"></span> /
+        <span th:text="${examination.patient.address.apartment}"></span>,
+        <span th:text="${examination.patient.address.postalCode}"></span>
+        <span th:text="${examination.patient.address.city}"></span>
+    </p>
+<h2 th:text="${examination.title}"></h2>
+    <p>
+        <strong>Opis:</strong> <span th:text="${examination.description}"></span>
+    </p>
+    <p>
+        <h3>Zdjęcia</h3>
+        <div th:each="base64Image : ${images}">
+            <img class="examination-image" th:src="'data:image/png;base64,' + ${base64Image}" />
+        </div>
+    </p>
+<h2>Personel realizujący</h2>
+    <p>
+        lekarz: <span th:text="${examination.doctor.person.name}"></span> <span th:text="${examination.doctor.person.surname}"></span>
+    </p>
+</body>
+</html>

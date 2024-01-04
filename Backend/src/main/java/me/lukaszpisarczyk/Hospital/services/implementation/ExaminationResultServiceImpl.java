@@ -1,5 +1,7 @@
 package me.lukaszpisarczyk.Hospital.services.implementation;
 
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import jakarta.transaction.Transactional;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationRequestDto;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationResultDto;
@@ -15,6 +17,8 @@ import me.lukaszpisarczyk.Hospital.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +32,8 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
     private UserService userService;
     @Autowired
     private ExaminationResultRepository examinationResultRepository;
+    @Autowired
+    private TemplateEngine templateEngine;
 
     private ExaminationResultMapper examinationResultMapper = new ExaminationResultMapper();
     @Override
@@ -69,11 +75,8 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
     @Transactional
     public List<ExaminationResultDto> getExaminationResultByPatient(String type) {
         User patient = userService.retrieveUserFromToken();
-        System.out.println(patient.getId());
         ExaminationType examinationType = ExaminationType.valueOf(type);
-        System.out.println(examinationType);
         List<ExaminationResult> examinationResults = examinationResultRepository.findAllByPatientAndType(patient, examinationType);
-        System.out.println(examinationResults);
         List<ExaminationResultDto> examinationResultDtos = new ArrayList<>();
         for(ExaminationResult examinationResult : examinationResults) {
             examinationResultDtos.add(examinationResultMapper.mapExaminationResultToDto(examinationResult));
@@ -93,5 +96,27 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
             examinationResultDtos.add(examinationResultMapper.mapExaminationResultToDto(examinationResult));
         }
         return examinationResultDtos;
+    }
+
+    @Override
+    @Transactional
+    public byte[] processExaminationResultPdf(Long examinationResultId) {
+        ExaminationResult examinationResult = examinationResultRepository.findById(examinationResultId).orElse(null);
+        Context context = new Context();
+        context.setVariable("examination", examinationResult);
+
+        List<String> images = new ArrayList<>();
+        for(Image image : examinationResult.getImages()) {
+            images.add(imageService.getBase64Image(image.getId()));
+        }
+
+        context.setVariable("images", images);
+
+        String processedHtml = templateEngine.process("examination.html", context);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        HtmlConverter.convertToPdf(processedHtml, byteArrayOutputStream);
+
+        return byteArrayOutputStream.toByteArray();
     }
 }
