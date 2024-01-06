@@ -8,7 +8,6 @@ import me.lukaszpisarczyk.Hospital.dto.SignupRequest;
 import me.lukaszpisarczyk.Hospital.dto.UserInfoResponse;
 import me.lukaszpisarczyk.Hospital.security.jwt.JwtUtils;
 import me.lukaszpisarczyk.Hospital.services.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +16,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    JwtUtils jwtUtils;
+    final JwtUtils jwtUtils;
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+
+    public AuthController(JwtUtils jwtUtils, AuthService authService) {
+        this.jwtUtils = jwtUtils;
+        this.authService = authService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

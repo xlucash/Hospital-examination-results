@@ -5,7 +5,6 @@ import me.lukaszpisarczyk.Hospital.models.User;
 import me.lukaszpisarczyk.Hospital.repositories.PersonRepository;
 import me.lukaszpisarczyk.Hospital.repositories.UserRepository;
 import me.lukaszpisarczyk.Hospital.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +12,13 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PersonRepository personRepository;
+    private final UserRepository userRepository;
+    private final PersonRepository personRepository;
+
+    public UserServiceImpl(UserRepository userRepository, PersonRepository personRepository) {
+        this.userRepository = userRepository;
+        this.personRepository = personRepository;
+    }
 
     @Override
     public User findByEmail(String email) {

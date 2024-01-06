@@ -1,6 +1,5 @@
 package me.lukaszpisarczyk.Hospital.controllers;
 
-import lombok.RequiredArgsConstructor;
 import me.lukaszpisarczyk.Hospital.models.Image;
 import me.lukaszpisarczyk.Hospital.services.ImageService;
 import org.springframework.http.HttpStatus;
@@ -16,9 +15,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/image")
-@RequiredArgsConstructor
 public class ImageController {
     private final ImageService imageService;
+
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     @PostMapping
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile imageFile) throws IOException {

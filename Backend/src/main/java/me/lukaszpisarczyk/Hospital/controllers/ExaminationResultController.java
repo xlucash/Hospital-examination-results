@@ -1,8 +1,5 @@
 package me.lukaszpisarczyk.Hospital.controllers;
 
-import com.itextpdf.html2pdf.HtmlConverter;
-import com.itextpdf.io.source.ByteArrayOutputStream;
-import lombok.RequiredArgsConstructor;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationRequestDto;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationResultDto;
 import me.lukaszpisarczyk.Hospital.models.ExaminationResult;
@@ -13,17 +10,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/examination-result")
-@RequiredArgsConstructor
 public class ExaminationResultController {
     private final ExaminationResultService examinationResultService;
-    private final TemplateEngine templateEngine;
+
+    public ExaminationResultController(ExaminationResultService examinationResultService) {
+        this.examinationResultService = examinationResultService;
+    }
 
     @PostMapping
     public ResponseEntity<?> saveExaminationResult(
@@ -46,7 +43,7 @@ public class ExaminationResultController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("filename", "examination.pdf");
+            headers.setContentDispositionFormData("filename", "badanie.pdf");
 
             return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
         } catch (Exception e) {

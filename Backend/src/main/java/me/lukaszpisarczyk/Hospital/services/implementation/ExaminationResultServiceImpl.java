@@ -14,7 +14,6 @@ import me.lukaszpisarczyk.Hospital.repositories.ExaminationResultRepository;
 import me.lukaszpisarczyk.Hospital.services.ExaminationResultService;
 import me.lukaszpisarczyk.Hospital.services.ImageService;
 import me.lukaszpisarczyk.Hospital.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
@@ -26,16 +25,20 @@ import java.util.List;
 
 @Service
 public class ExaminationResultServiceImpl implements ExaminationResultService {
-    @Autowired
-    private ImageService imageService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ExaminationResultRepository examinationResultRepository;
-    @Autowired
-    private TemplateEngine templateEngine;
+    private final ImageService imageService;
+    private final UserService userService;
+    private final ExaminationResultRepository examinationResultRepository;
+    private final TemplateEngine templateEngine;
 
     private ExaminationResultMapper examinationResultMapper = new ExaminationResultMapper();
+
+    public ExaminationResultServiceImpl(ImageService imageService, UserService userService, ExaminationResultRepository examinationResultRepository, TemplateEngine templateEngine) {
+        this.imageService = imageService;
+        this.userService = userService;
+        this.examinationResultRepository = examinationResultRepository;
+        this.templateEngine = templateEngine;
+    }
+
     @Override
     @Transactional
     public ExaminationResult saveExaminationResult(ExaminationRequestDto examinationRequestDto, List<MultipartFile> images) {

@@ -6,7 +6,6 @@ import me.lukaszpisarczyk.Hospital.repositories.ImageRepository;
 import me.lukaszpisarczyk.Hospital.services.ImageService;
 import me.lukaszpisarczyk.Hospital.utils.ImageUtils;
 import org.apache.commons.lang3.exception.ContextedRuntimeException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,8 +17,12 @@ import java.util.zip.DataFormatException;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    @Autowired
-    private ImageRepository imageRepository;
+    private final ImageRepository imageRepository;
+
+    public ImageServiceImpl(ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
+    }
+
     @Override
     public Image uploadImage(MultipartFile imageFile) throws IOException {
         var imageToSave = Image.builder()
