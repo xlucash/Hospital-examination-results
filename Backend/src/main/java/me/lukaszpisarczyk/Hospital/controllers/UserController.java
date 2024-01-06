@@ -17,12 +17,12 @@ public class UserController {
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+    public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
         return ResponseEntity.ok(userService.findByEmail(email));
     }
 
     @GetMapping("/pesel/{pesel}")
-    public ResponseEntity<User> getUserByPesel(@PathVariable String pesel) {
+    public ResponseEntity<User> getUserByPesel(@PathVariable("pesel") String pesel) {
         return ResponseEntity.ok(userService.findUserByPesel(pesel));
     }
 }

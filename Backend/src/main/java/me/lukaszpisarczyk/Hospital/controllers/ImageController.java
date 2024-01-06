@@ -44,7 +44,7 @@ public class ImageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> downloadImage(@PathVariable Long imageId) {
+    public ResponseEntity<?> downloadImage(@PathVariable("id") Long imageId) {
         byte[] imageData = imageService.downloadImage(imageId);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(MediaType.IMAGE_PNG_VALUE))
