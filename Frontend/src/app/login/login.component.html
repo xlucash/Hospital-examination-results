@@ -1,74 +1,65 @@
 <div class="container">
   <div class="row justify-content-center align-items-center min-vh-100">
     <div class="col-lg-6 col-md-9 col-sm-12">
-      <div class="card shadow">
-        <div class="card-body">
-          <h3 class="card-title text-center">Logowanie</h3>
-          <div class="p-3">
-            <form name="form"
-              (ngSubmit)="f.form.valid && onSubmit()"
-              #f="ngForm"
-              novalidate
-              *ngIf="!isLoggedIn"
-            >
-              <div class="form-group mb-3">
-                <label for="email">Email:</label>
-                <input 
-                  type="email" 
-                  name="email"
-                  [(ngModel)]="form.email"
-                  class="form-control" 
-                  id="email" 
-                  placeholder="Podaj email" 
-                  #email="ngModel"
-                  required
-                  [ngClass]="{ 'is-invalid': f.submitted && email.errors }"
-                >
-                <div *ngIf="email.errors && f.submitted">
-                  <div>Podaj prawidłowy adres email!</div>
-                </div>
-              </div>
-              <div class="form-group mb-3">
-                <label for="password">Hasło:</label>
-                <input 
-                  type="password" 
-                  class="form-control" 
-                  id="password" 
-                  placeholder="Podaj hasło" 
-                  [(ngModel)]="form.password"
-                  name="password" 
-                  required
-                  minlength="6"
-                  #password="ngModel"
-                  [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
-                >
-                <div *ngIf="password.errors && f.submitted">
-                  <div *ngIf="password.errors['required']">
-                    <div>Podaj prawidłowe hasło!</div>
-                  </div>
-                  <div *ngIf="password.errors['minlength']">
-                    <div>Hasło musi być dłuższe niż 6 znaków!</div>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center mt-3">
-                <p>Nie masz konta? <a routerLink="/register" class="text-primary">Zarejestruj się</a></p>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-default bg-primary text-white">Zaloguj się</button>
-              </div>
-              <div *ngIf="f.submitted && isLoginFailed">
-                <div role="alert">
-                  Logowanie nie powiodło się: {{ errorMessage }}
-                </div>
-              </div>
-            </form>
-            <div class="text-center" *ngIf="isLoggedIn">
-              <p>Zalogowano pomyślnie!</p>
-              <p>Przejdź do <a routerLink="/profile" class="text-primary">profilu</a></p>
+      <mat-card>
+        <mat-card-content>
+          <h3 class="text-center">Logowanie</h3>
+          <form name="form"
+                (ngSubmit)="f.form.valid && onSubmit()"
+                #f="ngForm"
+                novalidate
+                *ngIf="!isLoggedIn"
+          >
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Email:</mat-label>
+              <input matInput
+                     type="email" 
+                     name="email"
+                     [(ngModel)]="form.email"
+                     placeholder="Podaj email" 
+                     #email="ngModel"
+                     required
+              >
+              <mat-error *ngIf="email.errors && f.submitted">
+                Podaj prawidłowy adres email!
+              </mat-error>
+            </mat-form-field>
+      
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Hasło:</mat-label>
+              <input matInput
+                     type="password"
+                     name="password"
+                     [(ngModel)]="form.password"
+                     placeholder="Podaj hasło"
+                     #password="ngModel"
+                     required
+                     minlength="6"
+              >
+              <mat-error *ngIf="password.errors && f.submitted">
+                <span *ngIf="password.errors['required']">Podaj prawidłowe hasło!</span>
+                <span *ngIf="password.errors['minlength']">Hasło musi być dłuższe niż 6 znaków!</span>
+              </mat-error>
+            </mat-form-field>
+      
+            <div class="text-center mt-3">
+              <p>Nie masz konta? <a routerLink="/register">Zarejestruj się</a></p>
+            </div>
+      
+            <div class="text-center">
+              <button mat-raised-button color="primary" type="submit">Zaloguj się</button>
+            </div>
+      
+            <div *ngIf="f.submitted && isLoginFailed" class="mat-error">
+              Logowanie nie powiodło się: {{ errorMessage }}
+            </div>
+          </form>
+          <div class="text-center" *ngIf="isLoggedIn">
+            <p>Zalogowano pomyślnie!</p>
+            <p>Przejdź do <a routerLink="/profile">profilu</a></p>
           </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
 </div>

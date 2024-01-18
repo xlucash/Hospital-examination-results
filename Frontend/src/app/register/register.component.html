@@ -1,239 +1,211 @@
 <div class="container">
   <div class="row justify-content-center align-items-center min-vh-100">
     <div class="col-lg-6 col-md-9 col-sm-12">
-      <div class="card shadow">
-        <div class="card-body">
-          <h3 class="card-title text-center">Rejestracja</h3>
-          <div class="p-3">
-            <div *ngIf="!isSuccessful">
-              <form name="form"
-                    (ngSubmit)="f.form.valid && onSubmit()"
-                    #f="ngForm"
-                    novalidate>
-
-                <!-- Pole Email -->
-                <div class="form-group mb-3">
-                  <label for="email">Email</label>
-                  <input type="email"
-                         class="form-control"
-                         id="email"
-                         name="email"
-                         [(ngModel)]="form.email"
-                         required
-                         email
-                         #email="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && email.errors }">
-                  <div *ngIf="email.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="email.errors['required']">Email jest wymagany</div>
-                    <div *ngIf="email.errors['email']">Email musi być prawidłowy</div>
-                  </div>
-                </div>
-
-                <!-- Pole Hasło -->
-                <div class="form-group mb-3">
-                  <label for="password">Hasło</label>
-                  <input type="password"
-                         class="form-control"
-                         id="password"
-                         name="password"
-                         [(ngModel)]="form.password"
-                         required
-                         minlength="6"
-                         #password="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && password.errors }">
-                  <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="password.errors['required']">Hasło jest wymagane</div>
-                    <div *ngIf="password.errors['minlength']">Hasło musi mieć przynajmniej 6 znaków</div>
-                  </div>
-                </div>
-
-                <!-- Pole Imię -->
-                <div class="form-group mb-3">
-                  <label for="name">Imię</label>
-                  <input type="text"
-                         class="form-control"
-                         id="name"
-                         name="name"
-                         [(ngModel)]="form.name"
-                         required
-                         #name="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && name.errors }">
-                  <div *ngIf="name.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="name.errors['required']">Imię jest wymagane</div>
-                  </div>
-                </div>
-
-                <!-- Pole Nazwisko -->
-                <div class="form-group mb-3">
-                  <label for="surname">Nazwisko</label>
-                  <input type="text"
-                         class="form-control"
-                         id="surname"
-                         name="surname"
-                         [(ngModel)]="form.surname"
-                         required
-                         #surname="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && surname.errors }">
-                  <div *ngIf="surname.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="surname.errors['required']">Nazwisko jest wymagane</div>
-                  </div>
-                </div>
-
-                <!-- Pole Data Urodzenia -->
-                <div class="form-group mb-3">
-                  <label for="dateOfBirth">Data urodzenia</label>
-                  <input type="date"
-                         class="form-control"
-                         id="dateOfBirth"
-                         name="dateOfBirth"
-                         [(ngModel)]="form.dateOfBirth"
-                         required
-                         #dateOfBirth="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && dateOfBirth.errors }">
-                  <div *ngIf="dateOfBirth.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="dateOfBirth.errors['required']">Data urodzenia jest wymagana</div>
-                  </div>
-                </div>
-
-                <!-- Pole PESEL -->
-                <div class="form-group mb-3">
-                  <label for="pesel">PESEL</label>
-                  <input type="text"
-                         class="form-control"
-                         id="pesel"
-                         name="pesel"
-                         [(ngModel)]="form.pesel"
-                         required
-                         pattern="^\d{11}$"
-                         #pesel="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && pesel.errors }">
-                  <div *ngIf="pesel.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="pesel.errors['required']">PESEL jest wymagany</div>
-                    <div *ngIf="pesel.errors['pattern']">PESEL musi składać się z 11 cyfr</div>
-                  </div>
-                </div>
-
-                <!-- Pole Numer Telefonu -->
-                <div class="form-group mb-3">
-                  <label for="phoneNumber">Telefon</label>
-                  <input type="text"
-                         class="form-control"
-                         id="phoneNumber"
-                         name="phoneNumber"
-                         [(ngModel)]="form.phoneNumber"
-                         required
-                         #phoneNumber="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.errors }">
-                  <div *ngIf="phoneNumber.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="phoneNumber.errors['required']">Numer telefonu jest wymagany</div>
-                  </div>
-                </div>
-
-                <!-- Pole Adres -->
-                <div class="form-group mb-3">
-                  <label for="streetAddress">Adres</label>
-                  <input type="text"
-                         class="form-control"
-                         id="streetAddress"
-                         name="streetAddress"
-                         [(ngModel)]="form.streetAddress"
-                         required
-                         #streetAddress="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && streetAddress.errors }">
-                  <div *ngIf="streetAddress.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="streetAddress.errors['required']">Adres jest wymagany</div>
-                  </div>
-                </div>
-
-                <!-- Pole Numer Domu -->
-                <div class="form-group mb-3">
-                  <label for="house">Numer domu</label>
-                  <input type="text"
-                         class="form-control"
-                         id="house"
-                         name="house"
-                         [(ngModel)]="form.house"
-                         required
-                         #house="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && house.errors }">
-                  <div *ngIf="house.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="house.errors['required']">Numer domu jest wymagany</div>
-                  </div>
-                </div>
-
-                <!-- Pole Numer Mieszkania -->
-                <div class="form-group mb-3">
-                  <label for="apartment">Numer mieszkania</label>
-                  <input type="text"
-                         class="form-control"
-                         id="apartment"
-                         name="apartment"
-                         [(ngModel)]="form.apartment"
-                         required
-                         #apartment="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && apartment.errors }">
-                  <div *ngIf="apartment.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="apartment.errors['required']">Numer mieszkania jest wymagany</div>
-                  </div>
-                </div>
-
-                <!-- Pole Miasto -->
-                <div class="form-group mb-3">
-                  <label for="city">Miasto</label>
-                  <input type="text"
-                         class="form-control"
-                         id="city"
-                         name="city"
-                         [(ngModel)]="form.city"
-                         required
-                         #city="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && city.errors }">
-                  <div *ngIf="city.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="city.errors['required']">Miasto jest wymagane</div>
-                  </div>
-                </div>
-
-                <!-- Pole Kod Pocztowy -->
-                <div class="form-group mb-3">
-                  <label for="postalCode">Kod pocztowy</label>
-                  <input type="text"
-                         class="form-control"
-                         id="postalCode"
-                         name="postalCode"
-                         [(ngModel)]="form.postalCode"
-                         required
-                         #postalCode="ngModel"
-                         [ngClass]="{ 'is-invalid': f.submitted && postalCode.errors }">
-                  <div *ngIf="postalCode.errors && f.submitted" class="invalid-feedback">
-                    <div *ngIf="postalCode.errors['required']">Kod pocztowy jest wymagany</div>
-                  </div>
-                </div>
-                
-                <div class="text-center mt-3">
-                  <p>Masz już konto? <a routerLink="/login" class="text-primary">Zaloguj się</a></p>
-                </div>
-
-                <!-- Przycisk Zarejestruj -->
-                <div class="text-center">
-                  <button type="submit" class="btn btn-default bg-primary text-white">Zarejestruj</button>
-                </div>
-
-                <!-- Komunikat o błędzie -->
-                <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-danger" role="alert">
-                  Rejestracja nie powiodła się!<br />{{ errorMessage }}
-                </div>
-
-              </form>
+      <mat-card>
+        <mat-card-content>
+          <h3 class="text-center">Rejestracja</h3>
+          <form name="form"
+                (ngSubmit)="f.form.valid && onSubmit()"
+                #f="ngForm"
+                novalidate
+                *ngIf="!isSuccessful"
+          >
+      
+            <!-- Email -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput
+                     type="email"
+                     name="email"
+                     [(ngModel)]="form.email"
+                     required
+                     email
+                     #email="ngModel">
+              <mat-error *ngIf="email.errors && f.submitted">
+                {{ email.errors['required'] ? 'Email jest wymagany' : 'Email musi być prawidłowy' }}
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Hasło -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Hasło</mat-label>
+              <input matInput
+                     type="password"
+                     name="password"
+                     [(ngModel)]="form.password"
+                     required
+                     minlength="6"
+                     #password="ngModel">
+              <mat-error *ngIf="password.errors && f.submitted">
+                {{ password.errors['required'] ? 'Hasło jest wymagane' : 'Hasło musi mieć przynajmniej 6 znaków' }}
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Imię -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Imię</mat-label>
+              <input matInput
+                     type="text"
+                     name="name"
+                     [(ngModel)]="form.name"
+                     required
+                     #name="ngModel">
+              <mat-error *ngIf="name.errors && f.submitted">
+                Imię jest wymagane
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Nazwisko -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Nazwisko</mat-label>
+              <input matInput
+                     type="text"
+                     name="surname"
+                     [(ngModel)]="form.surname"
+                     required
+                     #surname="ngModel">
+              <mat-error *ngIf="surname.errors && f.submitted">
+                Nazwisko jest wymagane
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Data Urodzenia -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Data urodzenia</mat-label>
+              <input matInput
+                     type="date"
+                     name="dateOfBirth"
+                     [(ngModel)]="form.dateOfBirth"
+                     required
+                     #dateOfBirth="ngModel">
+              <mat-error *ngIf="dateOfBirth.errors && f.submitted">
+                Data urodzenia jest wymagana
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- PESEL -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>PESEL</mat-label>
+              <input matInput
+                     type="text"
+                     name="pesel"
+                     [(ngModel)]="form.pesel"
+                     required
+                     pattern="^\d{11}$"
+                     #pesel="ngModel"
+                     maxlength="11">
+              <mat-error *ngIf="pesel.errors && f.submitted">
+                {{ pesel.errors['required'] ? 'PESEL jest wymagany' : 'PESEL musi składać się z 11 cyfr' }}
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Numer Telefonu -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Telefon</mat-label>
+              <input matInput
+                     type="text"
+                     name="phoneNumber"
+                     [(ngModel)]="form.phoneNumber"
+                     required
+                     #phoneNumber="ngModel"
+                     (ngModelChange)="formatPhoneNumber()"
+                     maxlength="11">
+              <mat-error *ngIf="phoneNumber.errors && f.submitted">
+                Numer telefonu jest wymagany
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Adres, Numer Domu, Numer Mieszkania -->
+            <div class="row">
+              <mat-form-field appearance="fill" class="col-6">
+                <mat-label>Adres</mat-label>
+                <input matInput
+                       type="text"
+                       name="streetAddress"
+                       [(ngModel)]="form.streetAddress"
+                       required
+                       #streetAddress="ngModel">
+                <mat-error *ngIf="streetAddress.errors && f.submitted">
+                  Adres jest wymagany
+                </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field appearance="fill" class="col-3">
+                <mat-label>Numer domu</mat-label>
+                <input matInput
+                       type="text"
+                       name="house"
+                       [(ngModel)]="form.house"
+                       required
+                       #house="ngModel">
+                <mat-error *ngIf="house.errors && f.submitted">
+                  Numer domu jest wymagany
+                </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field appearance="fill" class="col-3">
+                <mat-label>Numer mieszkania</mat-label>
+                <input matInput
+                       type="text"
+                       name="apartment"
+                       [(ngModel)]="form.apartment"
+                       #apartment="ngModel">
+                <mat-error *ngIf="apartment.errors && f.submitted">
+                  Numer mieszkania jest wymagany
+                </mat-error>
+              </mat-form-field>
             </div>
-            <div *ngIf="isSuccessful">
-              <div>Rejestracja przebiegła pomyślnie!</div>
-              <div class="text-center mt-3">
-                <a routerLink="/login" class="btn btn-primary">Przejdź do logowania</a>
-              </div>
+      
+            <!-- Miasto -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Miasto</mat-label>
+              <input matInput
+                     type="text"
+                     name="city"
+                     [(ngModel)]="form.city"
+                     required
+                     #city="ngModel">
+              <mat-error *ngIf="city.errors && f.submitted">
+                Miasto jest wymagane
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Kod Pocztowy -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Kod pocztowy</mat-label>
+              <input matInput
+                     type="text"
+                     name="postalCode"
+                     [(ngModel)]="form.postalCode"
+                     required
+                     #postalCode="ngModel"
+                     (ngModelChange)="formatPostalCode()"
+                     maxlength="6">
+              <mat-error *ngIf="postalCode.errors && f.submitted">
+                Kod pocztowy jest wymagany
+              </mat-error>
+            </mat-form-field>
+      
+            <div class="text-center mt-3">
+              <p>Masz już konto? <a routerLink="/login">Zaloguj się</a></p>
+            </div>
+            <div class="text-center">
+              <button mat-raised-button color="primary" type="submit">Zarejestruj</button>
+            </div>
+      
+            <div *ngIf="f.submitted && isSignUpFailed" class="mat-error">
+              Rejestracja nie powiodła się!<br>{{ errorMessage }}
+            </div>
+      
+          </form>
+          <div *ngIf="isSuccessful">
+            <div>Rejestracja przebiegła pomyślnie!</div>
+            <div class="text-center mt-3">
+              <a routerLink="/login" mat-raised-button color="primary">Przejdź do logowania</a>
             </div>
           </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
 </div>
