@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, BehaviorSubject } from 'rxjs';
 import { StorageService } from './storage.service';
 
 const AUTH_API = 'http://localhost:8080/api/auth/';
@@ -13,6 +13,8 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class AuthService {
+  
+
   constructor(private http: HttpClient, private storageService: StorageService) {}
 
   login(email: string, password: string): Observable<any> {
@@ -61,9 +63,5 @@ export class AuthService {
       },
       httpOptions
     );
-  }
-
-  logout(): Observable<any> {
-    return this.http.post(AUTH_API + 'logout', { }, httpOptions);
   }
 }
