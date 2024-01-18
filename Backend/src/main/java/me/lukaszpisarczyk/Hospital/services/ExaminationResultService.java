@@ -13,4 +13,5 @@ public interface ExaminationResultService {
     List<ExaminationResultDto> getExaminationResultByPatient(String type);
     List<ExaminationResultDto> getExaminationResultByDoctor(String type);
     byte[] processExaminationResultPdf(Long examinationResultId);
+    List<ExaminationResultDto> getAllExaminationResult();
 }

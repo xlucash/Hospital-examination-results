@@ -13,4 +13,5 @@ import java.util.List;
 public interface ExaminationResultRepository extends JpaRepository<ExaminationResult, Long> {
     List<ExaminationResult> findAllByPatientAndType(User patient, @NotNull ExaminationType type);
     List<ExaminationResult> findAllByDoctorAndType(User doctor, @NotNull ExaminationType type);
+    List<ExaminationResult> findAllByPatient(User patient);
 }

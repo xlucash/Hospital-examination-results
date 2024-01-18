@@ -122,4 +122,15 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
 
         return byteArrayOutputStream.toByteArray();
     }
+
+    @Override
+    public List<ExaminationResultDto> getAllExaminationResult() {
+        User user = userService.retrieveUserFromToken();
+        List<ExaminationResult> examinationResults = examinationResultRepository.findAllByPatient(user);
+        List<ExaminationResultDto> examinationResultDtos = new ArrayList<>();
+        for(ExaminationResult examinationResult : examinationResults) {
+            examinationResultDtos.add(examinationResultMapper.mapExaminationResultToDto(examinationResult));
+        }
+        return examinationResultDtos;
+    }
 }

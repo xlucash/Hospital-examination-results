@@ -63,4 +63,10 @@ public class ExaminationResultController {
     	List<ExaminationResultDto> examinationResult = examinationResultService.getExaminationResultByDoctor(type);
     	return ResponseEntity.status(HttpStatus.OK).body(examinationResult);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllExaminationResult() {
+    	List<ExaminationResultDto> examinationResult = examinationResultService.getAllExaminationResult();
+    	return ResponseEntity.status(HttpStatus.OK).body(examinationResult);
+    }
 }
