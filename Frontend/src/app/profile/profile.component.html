@@ -1,9 +1,8 @@
-<p>profile works!</p>
-<!-- @if (currentUser) {
+@if (currentUser) {
   <div>
     <header>
       <h3>
-        <strong>{{ currentUser.username }}</strong> Profile
+        <strong>{{ currentUser.username }}</strong>
       </h3>
     </header>
     <p>
@@ -16,7 +15,15 @@
       <li>{{ role }}</li>
       }
     </ul>
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="USG">
+        Content 1
+      </mat-tab>
+      <mat-tab label="Rentgen">
+        Content 2
+      </mat-tab>
+    </mat-tab-group>
   </div>
   } @else {
    <p>Please login.</p>
-  } -->
+  }
