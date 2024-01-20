@@ -124,6 +124,7 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
     }
 
     @Override
+    @Transactional
     public List<ExaminationResultDto> getAllExaminationResult() {
         User user = userService.retrieveUserFromToken();
         List<ExaminationResult> examinationResults = examinationResultRepository.findAllByPatient(user);

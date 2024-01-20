@@ -61,6 +61,7 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userRepository.findByEmail(userDetails.getUsername()).get();
 
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
@@ -70,6 +71,10 @@ public class AuthServiceImpl implements AuthService {
 
         return new UserInfoResponse(userDetails.getId(),
                 userDetails.getUsername(),
+                user.getPerson().getName(),
+                user.getPerson().getSurname(),
+                user.getPerson().getDateOfBirth(),
+                user.getPerson().getPesel(),
                 userDetails.getEmail(),
                 roles,
                 jwtToken);
