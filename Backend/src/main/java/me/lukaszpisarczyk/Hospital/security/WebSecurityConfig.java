@@ -66,9 +66,11 @@ public class WebSecurityConfig {
                                 cors.configurationSource(
                                         request -> {
                                             CorsConfiguration config = new CorsConfiguration();
-                                            config.setAllowedOrigins(Arrays.asList("*"));
+                                            config.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
                                             config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
                                             config.setAllowedHeaders(Arrays.asList("*"));
+                                            config.setAllowCredentials(true);
+                                            config.setMaxAge(3600L);
                                             return config;
                                         }))
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
