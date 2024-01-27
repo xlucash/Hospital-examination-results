@@ -35,4 +35,9 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.findById(id));
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllPatients() {
+    	return ResponseEntity.ok(userService.getAllPatients());
+    }
 }

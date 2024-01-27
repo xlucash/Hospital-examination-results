@@ -3,7 +3,6 @@ package me.lukaszpisarczyk.Hospital.security.services;
 import jakarta.transaction.Transactional;
 import me.lukaszpisarczyk.Hospital.models.User;
 import me.lukaszpisarczyk.Hospital.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

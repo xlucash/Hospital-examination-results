@@ -22,7 +22,7 @@ public class ExaminationResultController {
         this.examinationResultService = examinationResultService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<?> saveExaminationResult(
             @RequestPart("examinationResult")ExaminationRequestDto examinationRequestDto,
             @RequestPart("image") List<MultipartFile> images) {
