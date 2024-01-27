@@ -31,11 +31,14 @@ export class ExaminationService {
     return this.http.get(EXAMINATION_API + '/doctor/' + type);
   }
 
-  saveExaminationResult(examinationRequestDto: any, images: File[]): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('examinationResult', JSON.stringify(examinationRequestDto));
-    images.forEach(image => {
-      formData.append('image', image);
+  saveExaminationResult(examinationDto: any, images: File[]) {
+    const formData = new FormData();
+    formData.append('examinationResult', new Blob([JSON.stringify(examinationDto)], {
+      type: 'application/json'
+    }));
+
+    images.forEach((file, index) => {
+      formData.append(`image`, file, file.name);
     });
 
     return this.http.post(EXAMINATION_API, formData);

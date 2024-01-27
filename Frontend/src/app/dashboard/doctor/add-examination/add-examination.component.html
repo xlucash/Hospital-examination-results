@@ -1,0 +1,30 @@
+<mat-card>
+   <form [formGroup]="examinationForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+     <mat-form-field appearance="fill">
+       <mat-label>Typ badania</mat-label>
+       <mat-select formControlName="type">
+         <mat-option value="USG">USG</mat-option>
+         <mat-option value="XRAY">Rentgen</mat-option>
+       </mat-select>
+     </mat-form-field>
+ 
+     <mat-form-field appearance="fill">
+       <mat-label>Tytuł</mat-label>
+       <input matInput formControlName="title">
+     </mat-form-field>
+ 
+     <mat-form-field appearance="fill">
+       <mat-label>Opis</mat-label>
+       <textarea matInput formControlName="description"></textarea>
+     </mat-form-field>
+ 
+     <mat-form-field appearance="fill">
+       <mat-label>Pesel</mat-label>
+       <input matInput formControlName="pesel">
+     </mat-form-field>
+ 
+     <input type="file" (change)="onFileSelect($event)" multiple>
+     
+     <button mat-raised-button color="primary" type="submit" [disabled]="!examinationForm.valid">Zapisz wyniki</button>
+   </form>
+ </mat-card>

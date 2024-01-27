@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { StorageService } from './_services/storage.service';
-import { AuthService } from './_services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +11,7 @@ export class AppComponent {
   isLoggedIn = false;
   username?: string;
 
-  constructor(private storageService: StorageService, private router: Router) { }
+  constructor(private storageService: StorageService) { }
 
   ngOnInit(): void {
     this.storageService.getLoggedInStatus().subscribe(status => {

@@ -18,6 +18,10 @@ export class UserService {
     return this.http.get(API_URL + 'pesel/' + pesel);
   }
 
+  getAllPatients(): Observable<any> {
+    return this.http.get(API_URL + 'all');
+  }
+
   getCurrentUser(): Observable<any> {
     return this.http.get(API_URL + 'current');
   }

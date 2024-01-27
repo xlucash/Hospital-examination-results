@@ -1,0 +1,57 @@
+<div class="container">
+   <div class="row">
+     <div class="col-sm-6 col-md-4 mt-3">
+       <mat-card class="add-doc text-center" (click) = "addDoctor()">
+         <mat-card-content>
+           Add Doctor <br>
+           <mat-icon>group_add</mat-icon>
+         </mat-card-content>
+       </mat-card>
+     </div>
+   </div>
+
+   <!-- doctors table -->
+   <mat-form-field>
+     <mat-label>Filter</mat-label>
+     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. code logic" #input>
+   </mat-form-field>
+ 
+      <mat-card>
+         <mat-card-content>
+            <h2><strong>Wyniki badań</strong></h2>
+            <mat-table [dataSource]="patients">
+      
+               <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef> Imię </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+               </ng-container>
+               
+               <ng-container matColumnDef="surname">
+                  <mat-header-cell *matHeaderCellDef> Nazwisko </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.surname}} </mat-cell>
+               </ng-container>
+      
+               <ng-container matColumnDef="dateOfBirth">
+                  <mat-header-cell *matHeaderCellDef> Data urodzenia </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </mat-cell>
+               </ng-container>
+      
+               <ng-container matColumnDef="pesel">
+                  <mat-header-cell *matHeaderCellDef> Pesel </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.pesel}} </mat-cell>
+               </ng-container>
+      
+               <ng-container matColumnDef="email">
+                  <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+               </ng-container>
+      
+               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+               <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+         </mat-card-content>
+       </mat-card>
+ 
+ 
+ </div>

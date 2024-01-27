@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { StorageService } from '../_services/storage.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,7 +13,7 @@ import { AuthService } from '../_services/auth.service';
 export class SidebarComponent {
   private breakpointObserver = inject(BreakpointObserver);
 
-  constructor(private storageService: StorageService, private authService: AuthService, private router: Router) { }
+  constructor(private storageService: StorageService, private router: Router) { }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(

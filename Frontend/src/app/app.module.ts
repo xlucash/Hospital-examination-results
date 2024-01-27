@@ -13,6 +13,8 @@ import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { DoctorComponent } from './dashboard/doctor/doctor.component';
+import { AddExaminationComponent } from './dashboard/doctor/add-examination/add-examination.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    SidebarComponent
+    SidebarComponent,
+    DoctorComponent,
+    AddExaminationComponent
   ],
   imports: [
     BrowserModule,
