@@ -6,7 +6,6 @@ import me.lukaszpisarczyk.Hospital.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -25,5 +24,15 @@ public class UserController {
     @GetMapping("/pesel/{pesel}")
     public ResponseEntity<User> getUserByPesel(@PathVariable("pesel") String pesel) {
         return ResponseEntity.ok(userService.findUserByPesel(pesel));
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<User> getUserFromToken() {
+        return ResponseEntity.ok(userService.retrieveUserFromToken());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(userService.findById(id));
     }
 }

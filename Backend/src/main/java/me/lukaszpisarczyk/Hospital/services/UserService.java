@@ -11,4 +11,6 @@ public interface UserService {
     User findUserByPesel (String pesel);
 
     User retrieveUserFromToken();
+
+    User findById(Long id);
 }
