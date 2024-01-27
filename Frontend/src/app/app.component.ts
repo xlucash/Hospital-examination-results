@@ -13,10 +13,12 @@ export class AppComponent {
   isLoggedIn = false;
   username?: string;
 
-  constructor(private storageService: StorageService, private authService: AuthService, private router: Router) { }
+  constructor(private storageService: StorageService, private router: Router) { }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.storageService.isLoggedIn();
+    this.storageService.getLoggedInStatus().subscribe(status => {
+      this.isLoggedIn = status;
+    });
 
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();
@@ -24,12 +26,5 @@ export class AppComponent {
 
       this.username = user.username;
     }
-  }
-
-  logout(): void {
-      this.storageService.clean();
-      this.isLoggedIn = false;
-
-      this.router.navigate(['/login']);
   }
 }
