@@ -20,11 +20,10 @@
 
    <!-- doctors table -->
    <mat-form-field>
-     <mat-label>Filter</mat-label>
-     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. code logic" #input>
+     <mat-label>Wyszukaj pacjenta</mat-label>
+     <input matInput (keyup)="applyFilter($event)" placeholder="Np. Kowalski" #input>
    </mat-form-field>
- 
-      <mat-card>
+       <mat-card>
          <mat-card-content>
             <h2><strong>Lista pacjentów</strong></h2>
             <mat-table [dataSource]="patients">
@@ -60,6 +59,42 @@
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
          </mat-card-content>
        </mat-card>
- 
+       <br>
+       <mat-card>
+         <mat-card-content>
+            <h2><strong>Lista lekarzy</strong></h2>
+            <mat-table [dataSource]="doctors">
+      
+               <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef> Imię </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+               </ng-container>
+               
+               <ng-container matColumnDef="surname">
+                  <mat-header-cell *matHeaderCellDef> Nazwisko </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.surname}} </mat-cell>
+               </ng-container>
+      
+               <ng-container matColumnDef="dateOfBirth">
+                  <mat-header-cell *matHeaderCellDef> Data urodzenia </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </mat-cell>
+               </ng-container>
+      
+               <ng-container matColumnDef="pesel">
+                  <mat-header-cell *matHeaderCellDef> Pesel </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.pesel}} </mat-cell>
+               </ng-container>
+      
+               <ng-container matColumnDef="email">
+                  <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+               </ng-container>
+      
+               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+               <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+         </mat-card-content>
+       </mat-card>
  
  </div>

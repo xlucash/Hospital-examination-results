@@ -16,8 +16,10 @@ import { UserService } from '../../_services/user.service';
 export class DoctorComponent implements OnInit {
   displayedColumns: string[] = ['name', 'surname', 'dateOfBirth', 'pesel', 'email'];
   patients = new MatTableDataSource<any>([]);
+  doctors = new MatTableDataSource<any>([]);
 
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) patientsPaginator!: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) doctorsPaginator!: MatPaginator;
 
   constructor(
     public dialog : MatDialog,
@@ -29,6 +31,18 @@ export class DoctorComponent implements OnInit {
     this.userService.getAllPatients().subscribe(
       data => {
         const filteredPatients = data.filter((d: { roles: any[]; }) => d.roles.some(role => role.name === 'ROLE_USER'));
+        const filteredDoctors = data.filter((d: { roles: any[]; }) => d.roles.some(role => role.name === 'ROLE_DOCTOR'));
+        this.doctors.data = filteredDoctors.map((doctor: {
+          email: any; id: any; person: {
+          pesel: any; name: any; surname: any; dateOfBirth: any; }; 
+        }) => ({
+          id: doctor.id,
+          name: doctor.person.name,
+          surname: doctor.person.surname,
+          dateOfBirth: doctor.person.dateOfBirth,
+          pesel: doctor.person.pesel,
+          email: doctor.email,
+        }));
         this.patients.data = filteredPatients.map((patient: {
           email: any; id: any; person: {
           pesel: any; name: any; surname: any; dateOfBirth: any; }; 
@@ -40,7 +54,8 @@ export class DoctorComponent implements OnInit {
           pesel: patient.person.pesel,
           email: patient.email,
         }));
-        this.patients.paginator = this.paginator;
+        this.patients.paginator = this.patientsPaginator;
+        this.doctors.paginator = this.doctorsPaginator;
         console.log(data);
       },
       error => {

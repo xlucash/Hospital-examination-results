@@ -39,11 +39,11 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne
-    @JoinColumn(name = "person_id", nullable = false)
+    @JoinColumn(name = "person_id")
     private Person person;
 
     @OneToOne
-    @JoinColumn(name = "address_id", nullable = false)
+    @JoinColumn(name = "address_id")
     private Address address;
 
     public User(String email, String password, Person person, Address address) {
