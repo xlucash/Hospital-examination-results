@@ -14,7 +14,6 @@ import { UserService } from '../../_services/user.service';
   styleUrl: './doctor.component.css'
 })
 export class DoctorComponent implements OnInit {
-
   displayedColumns: string[] = ['name', 'surname', 'dateOfBirth', 'pesel', 'email'];
   patients = new MatTableDataSource<any>([]);
 
@@ -50,22 +49,22 @@ export class DoctorComponent implements OnInit {
     );
   }
 
-  addDoctor() {
+  addResults() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      title : 'Register doctor',
-      buttonName : 'Register'
-    }
 
     const dialogRef = this.dialog.open(AddExaminationComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(data => {
       if(data) {
-        this.openSnackBar("Registration of doctor is successful.", "OK")
+        this.openSnackBar("Pomyślnie dodano wynik badania.", "Zamknij")
       }
     })
+  }
+
+  addDoctor() {
+    
   }
 
 

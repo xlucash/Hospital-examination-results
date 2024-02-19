@@ -1,13 +1,21 @@
 <div class="container">
    <div class="row">
      <div class="col-sm-6 col-md-4 mt-3">
-       <mat-card class="add-doc text-center" (click) = "addDoctor()">
+       <mat-card class="add-doc text-center" (click) = "addResults()">
          <mat-card-content>
-           Add Doctor <br>
-           <mat-icon>group_add</mat-icon>
+           Zapisz wyniki badań <br>
+           <mat-icon>assignment</mat-icon>
          </mat-card-content>
        </mat-card>
      </div>
+     <div class="col-sm-6 col-md-4 mt-3">
+      <mat-card class="add-doc text-center" (click) = "addDoctor()">
+        <mat-card-content>
+          Dodaj doktora <br>
+          <mat-icon>group_add</mat-icon>
+        </mat-card-content>
+      </mat-card>
+    </div>
    </div>
 
    <!-- doctors table -->
@@ -18,7 +26,7 @@
  
       <mat-card>
          <mat-card-content>
-            <h2><strong>Wyniki badań</strong></h2>
+            <h2><strong>Lista pacjentów</strong></h2>
             <mat-table [dataSource]="patients">
       
                <ng-container matColumnDef="name">

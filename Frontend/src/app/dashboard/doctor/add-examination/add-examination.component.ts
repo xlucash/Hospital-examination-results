@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExaminationService } from '../../../_services/examination.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-examination',
@@ -13,6 +14,7 @@ export class AddExaminationComponent {
 
   constructor(
     private fb: FormBuilder,
+    public dialogRef: MatDialogRef<AddExaminationComponent>,
     private examinationService: ExaminationService
   ) {
     this.examinationForm = this.fb.group({
@@ -41,9 +43,14 @@ export class AddExaminationComponent {
           console.error('Error saving the examination result', error);
         }
       );
+      this.dialogRef.close(this.examinationForm.value);
     } else {
       console.error('Form is not valid or no images have been selected');
 
     }
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 }

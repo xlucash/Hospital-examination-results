@@ -1,0 +1,22 @@
+.mat-dialog-content {
+    width: 600px;
+}
+  
+.mat-grid-list {
+    overflow: hidden;
+}
+  
+.mat-radio-button {
+    margin-right: 15px;
+}
+
+.examination-form-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .examination-form-fields mat-form-field,
+  .file-input-container {
+    width: 100%;
+    margin-bottom: 8px;
+  }
