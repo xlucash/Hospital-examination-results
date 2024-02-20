@@ -46,10 +46,22 @@ public class User {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @OneToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
     public User(String email, String password, Person person, Address address) {
         this.email = email;
         this.password = password;
         this.person = person;
         this.address = address;
+    }
+
+    public User(String email, String password, Person person, Address address, Doctor doctor) {
+        this.email = email;
+        this.password = password;
+        this.person = person;
+        this.address = address;
+        this.doctor = doctor;
     }
 }

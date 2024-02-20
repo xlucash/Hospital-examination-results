@@ -1,18 +1,9 @@
 package me.lukaszpisarczyk.Hospital.services.implementation;
 
-import me.lukaszpisarczyk.Hospital.dto.LoginRequest;
-import me.lukaszpisarczyk.Hospital.dto.MessageResponse;
-import me.lukaszpisarczyk.Hospital.dto.SignupRequest;
-import me.lukaszpisarczyk.Hospital.dto.UserInfoResponse;
+import me.lukaszpisarczyk.Hospital.dto.*;
 import me.lukaszpisarczyk.Hospital.enums.UserRole;
-import me.lukaszpisarczyk.Hospital.models.Address;
-import me.lukaszpisarczyk.Hospital.models.Person;
-import me.lukaszpisarczyk.Hospital.models.Role;
-import me.lukaszpisarczyk.Hospital.models.User;
-import me.lukaszpisarczyk.Hospital.repositories.AddressRepository;
-import me.lukaszpisarczyk.Hospital.repositories.PersonRepository;
-import me.lukaszpisarczyk.Hospital.repositories.RoleRepository;
-import me.lukaszpisarczyk.Hospital.repositories.UserRepository;
+import me.lukaszpisarczyk.Hospital.models.*;
+import me.lukaszpisarczyk.Hospital.repositories.*;
 import me.lukaszpisarczyk.Hospital.security.jwt.JwtUtils;
 import me.lukaszpisarczyk.Hospital.security.services.UserDetailsImpl;
 import me.lukaszpisarczyk.Hospital.services.AuthService;
@@ -39,17 +30,22 @@ public class AuthServiceImpl implements AuthService {
     private final AddressRepository addressRepository;
 
     private final PersonRepository personRepository;
+    private final DoctorRepository doctorRepository;
 
     private final PasswordEncoder encoder;
 
     private final JwtUtils jwtUtils;
 
-    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, AddressRepository addressRepository, PersonRepository personRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository,
+                           RoleRepository roleRepository, AddressRepository addressRepository,
+                           PersonRepository personRepository, DoctorRepository doctorRepository,
+                           PasswordEncoder encoder, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.addressRepository = addressRepository;
         this.personRepository = personRepository;
+        this.doctorRepository = doctorRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
     }
@@ -116,5 +112,48 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
 
         return new MessageResponse("User registered successfully!");
+    }
+
+    @Override
+    public MessageResponse registerDoctor(SignupDoctorRequest signUpRequest) {
+        if (doctorRepository.existsByLicenseNumber(signUpRequest.getLicenseNumber())) {
+            return new MessageResponse("Error: License number is already in use!");
+        }
+
+        Address address = new Address(signUpRequest.getStreetAddress(),
+                signUpRequest.getHouse(),
+                signUpRequest.getApartment(),
+                signUpRequest.getCity(),
+                signUpRequest.getPostalCode());
+        address = addressRepository.save(address);
+
+        Person person = new Person(signUpRequest.getName(),
+                signUpRequest.getSurname(),
+                signUpRequest.getDateOfBirth(),
+                signUpRequest.getPesel(),
+                signUpRequest.getPhoneNumber());
+        person = personRepository.save(person);
+
+        Doctor doctor = new Doctor(signUpRequest.getLicenseNumber(),
+                signUpRequest.getSpecialization());
+        doctor = doctorRepository.save(doctor);
+
+        User user = new User(
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()),
+                person,
+                address,
+                doctor);
+
+        Set<Role> roles = new HashSet<>();
+
+        Role userRole = roleRepository.findByName(UserRole.ROLE_DOCTOR)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(userRole);
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return new MessageResponse("Doctor registered successfully!");
     }
 }
