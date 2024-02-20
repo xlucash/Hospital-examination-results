@@ -1,0 +1,228 @@
+<h2 mat-dialog-title>Wyniki badań</h2>
+<mat-divider></mat-divider>
+
+<mat-dialog-content class="examination-form-content">
+  <div class="examination-form-fields">
+    <h3 class="text-center">Rejestracja</h3>
+          <form name="form"
+                (ngSubmit)="f.form.valid && onSubmit()"
+                #f="ngForm"
+                novalidate
+                *ngIf="!isSuccessful"
+          >
+      
+            <!-- Email -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput
+                     type="email"
+                     name="email"
+                     [(ngModel)]="form.email"
+                     required
+                     email
+                     #email="ngModel">
+              <mat-error *ngIf="email.errors && f.submitted">
+                {{ email.errors['required'] ? 'Email jest wymagany' : 'Email musi być prawidłowy' }}
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Hasło -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Hasło</mat-label>
+              <input matInput
+                     type="password"
+                     name="password"
+                     [(ngModel)]="form.password"
+                     required
+                     minlength="6"
+                     #password="ngModel">
+              <mat-error *ngIf="password.errors && f.submitted">
+                {{ password.errors['required'] ? 'Hasło jest wymagane' : 'Hasło musi mieć przynajmniej 6 znaków' }}
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Imię -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Imię</mat-label>
+              <input matInput
+                     type="text"
+                     name="name"
+                     [(ngModel)]="form.name"
+                     required
+                     #name="ngModel">
+              <mat-error *ngIf="name.errors && f.submitted">
+                Imię jest wymagane
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Nazwisko -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Nazwisko</mat-label>
+              <input matInput
+                     type="text"
+                     name="surname"
+                     [(ngModel)]="form.surname"
+                     required
+                     #surname="ngModel">
+              <mat-error *ngIf="surname.errors && f.submitted">
+                Nazwisko jest wymagane
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Data Urodzenia -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Data urodzenia</mat-label>
+              <input matInput
+                     type="date"
+                     name="dateOfBirth"
+                     [(ngModel)]="form.dateOfBirth"
+                     required
+                     #dateOfBirth="ngModel">
+              <mat-error *ngIf="dateOfBirth.errors && f.submitted">
+                Data urodzenia jest wymagana
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- PESEL -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>PESEL</mat-label>
+              <input matInput
+                     type="text"
+                     name="pesel"
+                     [(ngModel)]="form.pesel"
+                     required
+                     pattern="^\d{11}$"
+                     #pesel="ngModel"
+                     maxlength="11">
+              <mat-error *ngIf="pesel.errors && f.submitted">
+                {{ pesel.errors['required'] ? 'PESEL jest wymagany' : 'PESEL musi składać się z 11 cyfr' }}
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Numer Telefonu -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Telefon</mat-label>
+              <input matInput
+                     type="text"
+                     name="phoneNumber"
+                     [(ngModel)]="form.phoneNumber"
+                     required
+                     #phoneNumber="ngModel"
+                     (ngModelChange)="formatPhoneNumber()"
+                     maxlength="11">
+              <mat-error *ngIf="phoneNumber.errors && f.submitted">
+                Numer telefonu jest wymagany
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Adres, Numer Domu, Numer Mieszkania -->
+            <div class="row">
+              <mat-form-field appearance="fill" class="col-6">
+                <mat-label>Adres</mat-label>
+                <input matInput
+                       type="text"
+                       name="streetAddress"
+                       [(ngModel)]="form.streetAddress"
+                       required
+                       #streetAddress="ngModel">
+                <mat-error *ngIf="streetAddress.errors && f.submitted">
+                  Adres jest wymagany
+                </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field appearance="fill" class="col-3">
+                <mat-label>Numer domu</mat-label>
+                <input matInput
+                       type="text"
+                       name="house"
+                       [(ngModel)]="form.house"
+                       required
+                       #house="ngModel">
+                <mat-error *ngIf="house.errors && f.submitted">
+                  Numer domu jest wymagany
+                </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field appearance="fill" class="col-3">
+                <mat-label>Numer mieszkania</mat-label>
+                <input matInput
+                       type="text"
+                       name="apartment"
+                       [(ngModel)]="form.apartment"
+                       #apartment="ngModel">
+                <mat-error *ngIf="apartment.errors && f.submitted">
+                  Numer mieszkania jest wymagany
+                </mat-error>
+              </mat-form-field>
+            </div>
+      
+            <!-- Miasto -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Miasto</mat-label>
+              <input matInput
+                     type="text"
+                     name="city"
+                     [(ngModel)]="form.city"
+                     required
+                     #city="ngModel">
+              <mat-error *ngIf="city.errors && f.submitted">
+                Miasto jest wymagane
+              </mat-error>
+            </mat-form-field>
+      
+            <!-- Kod Pocztowy -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Kod pocztowy</mat-label>
+              <input matInput
+                     type="text"
+                     name="postalCode"
+                     [(ngModel)]="form.postalCode"
+                     required
+                     #postalCode="ngModel"
+                     (ngModelChange)="formatPostalCode()"
+                     maxlength="6">
+              <mat-error *ngIf="postalCode.errors && f.submitted">
+                Kod pocztowy jest wymagany
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Numer licencji -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Numer licencji</mat-label>
+              <input matInput
+                     type="text"
+                     name="licenseNumber"
+                     [(ngModel)]="form.licenseNumber"
+                     required
+                     #licenseNumber="ngModel"
+                     maxlength="6">
+              <mat-error *ngIf="licenseNumber.errors && f.submitted">
+                Numer licencji jest wymagany
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Specjalizacja -->
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Specjalizacja</mat-label>
+              <input matInput
+                     type="text"
+                     name="specialization"
+                     [(ngModel)]="form.specialization"
+                     required
+                     #specialization="ngModel">
+              <mat-error *ngIf="specialization.errors && f.submitted">
+                Specjalizacja jest wymagana
+              </mat-error>
+            </mat-form-field>
+      
+            <div *ngIf="f.submitted && isSignUpFailed" class="mat-error">
+              Rejestracja nie powiodła się!<br>{{ errorMessage }}
+            </div>
+
+            <div mat-dialog-actions>
+                <button mat-button (click)="closeDialog()">Anuluj</button>
+                <button mat-raised-button color="primary" type="submit">Utwórz konto</button>
+            </div>
+          </form>
+  </div>
+</mat-dialog-content>

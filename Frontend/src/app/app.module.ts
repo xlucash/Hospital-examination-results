@@ -15,6 +15,7 @@ import { MaterialModule } from './material/material.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DoctorComponent } from './dashboard/doctor/doctor.component';
 import { AddExaminationComponent } from './dashboard/doctor/add-examination/add-examination.component';
+import { AddDoctorComponent } from './dashboard/doctor/add-doctor/add-doctor.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AddExaminationComponent } from './dashboard/doctor/add-examination/add-
     ProfileComponent,
     SidebarComponent,
     DoctorComponent,
-    AddExaminationComponent
+    AddExaminationComponent,
+    AddDoctorComponent
   ],
   imports: [
     BrowserModule,

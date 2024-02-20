@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AddExaminationComponent } from './add-examination/add-examination.component';
 import { ExaminationService } from '../../_services/examination.service';
 import { UserService } from '../../_services/user.service';
+import { AddDoctorComponent } from './add-doctor/add-doctor.component';
 
 @Component({
   selector: 'app-doctor',
@@ -79,7 +80,17 @@ export class DoctorComponent implements OnInit {
   }
 
   addDoctor() {
-    
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    const dialogRef = this.dialog.open(AddDoctorComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(data => {
+      if(data) {
+        this.openSnackBar("Pomyślnie utworzono konto dla lekarza.", "Zamknij")
+      }
+    })
   }
 
 

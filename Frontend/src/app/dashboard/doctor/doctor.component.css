@@ -10,3 +10,8 @@ table {
 div {
    margin-bottom: 15px;
 }
+
+.add-doc:hover {
+   cursor: pointer;
+   transform: scale(1.03);
+ }

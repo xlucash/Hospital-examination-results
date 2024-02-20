@@ -64,4 +64,41 @@ export class AuthService {
       httpOptions
     );
   }
+
+  registerDoctor(
+    email: string, 
+    password: string, 
+    name: string, 
+    surname: string, 
+    dateOfBirth: string, 
+    pesel: string, 
+    phoneNumber: string,
+    streetAddress: string, 
+    house: string, 
+    apartment: string, 
+    city: string, 
+    postalCode: string,
+    licenseNumber: string,
+    specialization: string): Observable<any> {
+    return this.http.post(
+      AUTH_API + 'register/doctor',
+      {
+        email,
+        password,
+        name,
+        surname,
+        dateOfBirth,
+        pesel,
+        streetAddress,
+        phoneNumber,
+        house,
+        apartment,
+        city,
+        postalCode,
+        licenseNumber,
+        specialization
+      },
+      httpOptions
+    );
+  }
 }
