@@ -46,16 +46,13 @@ public class ImageServiceImpl implements ImageService {
                         .addContextValue("Image ID",  image.getId())
                         .addContextValue("Image name", image.getName());
             }
-        }).orElse(null);
+        }).orElseThrow(() -> new RuntimeException("Image not found with id: " + imageId));
     }
 
     @Override
     public String getBase64Image(Long imageId) {
-        byte[] imageData = downloadImage(imageId);
-        if (imageData != null) {
-            return Base64.getEncoder().encodeToString(imageData);
-        }
-
-        return null;
+        return Optional.ofNullable(downloadImage(imageId))
+                .map(data -> Base64.getEncoder().encodeToString(data))
+                .orElseThrow(() -> new RuntimeException("Image not found or cannot be processed for id: " + imageId));
     }
 }

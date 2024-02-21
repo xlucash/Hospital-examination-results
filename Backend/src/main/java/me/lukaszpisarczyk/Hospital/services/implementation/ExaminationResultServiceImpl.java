@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationRequestDto;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationResultDto;
 import me.lukaszpisarczyk.Hospital.enums.ExaminationType;
+import me.lukaszpisarczyk.Hospital.exceptions.ExaminationResultNotFoundException;
 import me.lukaszpisarczyk.Hospital.mapper.ExaminationResultMapper;
 import me.lukaszpisarczyk.Hospital.models.ExaminationResult;
 import me.lukaszpisarczyk.Hospital.models.Image;
@@ -22,17 +23,23 @@ import org.thymeleaf.context.Context;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ExaminationResultServiceImpl implements ExaminationResultService {
     private final ImageService imageService;
+
     private final UserService userService;
+
     private final ExaminationResultRepository examinationResultRepository;
+
     private final TemplateEngine templateEngine;
 
-    private ExaminationResultMapper examinationResultMapper = new ExaminationResultMapper();
+    private final ExaminationResultMapper examinationResultMapper = new ExaminationResultMapper();
 
-    public ExaminationResultServiceImpl(ImageService imageService, UserService userService, ExaminationResultRepository examinationResultRepository, TemplateEngine templateEngine) {
+    public ExaminationResultServiceImpl(ImageService imageService, UserService userService,
+                                        ExaminationResultRepository examinationResultRepository,
+                                        TemplateEngine templateEngine) {
         this.imageService = imageService;
         this.userService = userService;
         this.examinationResultRepository = examinationResultRepository;
@@ -45,15 +52,7 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
         User doctor = userService.retrieveUserFromToken();
         User patient = userService.findUserByPesel(examinationRequestDto.getPesel());
 
-        List<Image> imagesToSave = new ArrayList<>();
-        for(MultipartFile image : images) {
-            try {
-                Image uploadedImage = imageService.uploadImage(image);
-                imagesToSave.add(uploadedImage);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        List<Image> imagesToSave = saveImages(images);
 
         ExaminationResult examinationResult = new ExaminationResult();
         examinationResult.setType(examinationRequestDto.getType());
@@ -69,8 +68,8 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
     @Override
     @Transactional
     public ExaminationResultDto getExaminationResult(Long id) {
-        ExaminationResult examinationResult = examinationResultRepository.findById(id).orElse(null);
-        assert examinationResult != null;
+        ExaminationResult examinationResult = examinationResultRepository.findById(id)
+                .orElseThrow(() -> new ExaminationResultNotFoundException("Examination Result not found for this id : " + id));
         return examinationResultMapper.mapExaminationResultToDto(examinationResult);
     }
 
@@ -80,12 +79,7 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
         User patient = userService.retrieveUserFromToken();
         ExaminationType examinationType = ExaminationType.valueOf(type);
         List<ExaminationResult> examinationResults = examinationResultRepository.findAllByPatientAndType(patient, examinationType);
-        List<ExaminationResultDto> examinationResultDtos = new ArrayList<>();
-        for(ExaminationResult examinationResult : examinationResults) {
-            examinationResultDtos.add(examinationResultMapper.mapExaminationResultToDto(examinationResult));
-        }
-        System.out.println(examinationResultDtos);
-        return examinationResultDtos;
+        return mapToDtoList(examinationResults);
     }
 
     @Override
@@ -94,11 +88,7 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
         User doctor = userService.retrieveUserFromToken();
         ExaminationType examinationType = ExaminationType.valueOf(type);
         List<ExaminationResult> examinationResults = examinationResultRepository.findAllByDoctorAndType(doctor, examinationType);
-        List<ExaminationResultDto> examinationResultDtos = new ArrayList<>();
-        for(ExaminationResult examinationResult : examinationResults) {
-            examinationResultDtos.add(examinationResultMapper.mapExaminationResultToDto(examinationResult));
-        }
-        return examinationResultDtos;
+        return mapToDtoList(examinationResults);
     }
 
     @Override
@@ -109,8 +99,11 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
         context.setVariable("examination", examinationResult);
 
         List<String> images = new ArrayList<>();
-        for(Image image : examinationResult.getImages()) {
-            images.add(imageService.getBase64Image(image.getId()));
+
+        if (examinationResult != null) {
+            for(Image image : examinationResult.getImages()) {
+                images.add(imageService.getBase64Image(image.getId()));
+            }
         }
 
         context.setVariable("images", images);
@@ -133,5 +126,24 @@ public class ExaminationResultServiceImpl implements ExaminationResultService {
             examinationResultDtos.add(examinationResultMapper.mapExaminationResultToDto(examinationResult));
         }
         return examinationResultDtos;
+    }
+
+    private List<Image> saveImages(List<MultipartFile> images) {
+        List<Image> savedImages = new ArrayList<>();
+        for (MultipartFile image : images) {
+            try {
+                Image uploadedImage = imageService.uploadImage(image);
+                savedImages.add(uploadedImage);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return savedImages;
+    }
+
+    private List<ExaminationResultDto> mapToDtoList(List<ExaminationResult> examinationResults) {
+        return examinationResults.stream()
+                .map(examinationResultMapper::mapExaminationResultToDto)
+                .collect(Collectors.toList());
     }
 }

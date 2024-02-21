@@ -2,6 +2,7 @@ package me.lukaszpisarczyk.Hospital.controllers;
 
 import me.lukaszpisarczyk.Hospital.dto.ExaminationRequestDto;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationResultDto;
+import me.lukaszpisarczyk.Hospital.exceptions.ExaminationResultNotFoundException;
 import me.lukaszpisarczyk.Hospital.models.ExaminationResult;
 import me.lukaszpisarczyk.Hospital.services.ExaminationResultService;
 import org.springframework.http.HttpHeaders;
@@ -32,8 +33,12 @@ public class ExaminationResultController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getExaminationResult(@PathVariable Long id) {
-        ExaminationResultDto examinationResult = examinationResultService.getExaminationResult(id);
-        return ResponseEntity.status(HttpStatus.OK).body(examinationResult);
+        try {
+            ExaminationResultDto examinationResult = examinationResultService.getExaminationResult(id);
+            return ResponseEntity.status(HttpStatus.OK).body(examinationResult);
+        } catch (ExaminationResultNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}/pdf")
