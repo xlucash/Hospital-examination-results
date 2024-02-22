@@ -3,15 +3,18 @@ package me.lukaszpisarczyk.Hospital.services;
 import me.lukaszpisarczyk.Hospital.dto.*;
 import me.lukaszpisarczyk.Hospital.enums.UserRole;
 import me.lukaszpisarczyk.Hospital.models.*;
-import me.lukaszpisarczyk.Hospital.repositories.*;
+import me.lukaszpisarczyk.Hospital.repositories.DoctorRepository;
+import me.lukaszpisarczyk.Hospital.repositories.RoleRepository;
+import me.lukaszpisarczyk.Hospital.repositories.UserRepository;
 import me.lukaszpisarczyk.Hospital.security.jwt.JwtUtils;
 import me.lukaszpisarczyk.Hospital.security.services.UserDetailsImpl;
 import me.lukaszpisarczyk.Hospital.services.implementation.AuthServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,12 +23,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class AuthServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+public class AuthServiceTest {
 
     @Mock
     private AuthenticationManager authenticationManager;
@@ -56,7 +62,6 @@ public class AuthServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         SecurityContext securityContext = mock(SecurityContext.class);
         SecurityContextHolder.setContext(securityContext);
     }
@@ -81,7 +86,6 @@ public class AuthServiceImplTest {
         Authentication authentication = mock(Authentication.class);
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(authentication);
-        when(SecurityContextHolder.getContext().getAuthentication()).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(userDetails);
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
         when(jwtUtils.generateTokenFromUsername("test@example.com")).thenReturn("jwtToken");
@@ -164,5 +168,48 @@ public class AuthServiceImplTest {
         verify(doctorRepository, times(1)).save(any(Doctor.class));
         verify(userRepository, times(1)).save(any(User.class));
         assertEquals("Doctor registered successfully!", result.getMessage());
+    }
+
+    @Test
+    public void testRegisterUser_EmailAlreadyExists() {
+        SignupRequest signupRequest = new SignupRequest();
+        signupRequest.setEmail("test@example.com");
+        signupRequest.setPassword("password");
+
+        when(userRepository.existsByEmail("test@example.com")).thenReturn(true);
+
+        MessageResponse result = authService.registerUser(signupRequest);
+
+        verify(userRepository, times(1)).existsByEmail("test@example.com");
+        assertEquals("Error: Email is already in use!", result.getMessage());
+    }
+
+    @Test
+    public void testRegisterDoctor_LicenseNumberAlreadyExists() {
+        SignupDoctorRequest signupRequest = new SignupDoctorRequest();
+        signupRequest.setEmail("doctor@example.com");
+        signupRequest.setPassword("password");
+        signupRequest.setLicenseNumber("123456");
+        signupRequest.setSpecialization("Cardiology");
+
+        when(doctorRepository.existsByLicenseNumber("123456")).thenReturn(true);
+
+        MessageResponse result = authService.registerDoctor(signupRequest);
+
+        verify(doctorRepository, times(1)).existsByLicenseNumber("123456");
+        assertEquals("Error: License number is already in use!", result.getMessage());
+    }
+
+    @Test
+    public void testRegisterUser_RoleNotFound() {
+        SignupRequest signupRequest = new SignupRequest();
+        signupRequest.setEmail("newuser@example.com");
+        signupRequest.setPassword("password");
+
+        when(userRepository.existsByEmail("newuser@example.com")).thenReturn(false);
+        when(roleRepository.findByName(UserRole.ROLE_USER)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(RuntimeException.class, () -> authService.registerUser(signupRequest));
+        assertEquals("Error: Role is not found.", exception.getMessage());
     }
 }

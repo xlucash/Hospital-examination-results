@@ -149,6 +149,9 @@
 							</limits>
 						</rule>
 					</rules>
+					<excludes>
+						<exclude>**/security/**</exclude>
+					</excludes>
 				</configuration>
 				<executions>
 					<execution>

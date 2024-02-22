@@ -12,12 +12,14 @@ import me.lukaszpisarczyk.Hospital.repositories.ExaminationResultRepository;
 import me.lukaszpisarczyk.Hospital.services.implementation.ExaminationResultServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class ExaminationResultServiceTest {
 
     @InjectMocks
@@ -47,7 +50,6 @@ public class ExaminationResultServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         examinationResultMapper = new ExaminationResultMapper();
     }
 
@@ -122,5 +124,136 @@ public class ExaminationResultServiceTest {
         });
 
         verify(examinationResultRepository, times(1)).findById(examinationResultId);
+    }
+
+    @Test
+    public void testGetExaminationResultByPatient() {
+        User patient = new User();
+        patient.setId(1L);
+
+        ExaminationType type = ExaminationType.XRAY;
+        List<ExaminationResult> examinationResults = new ArrayList<>();
+
+        for (int i = 0; i < 2; i++) {
+            User doctor = new User();
+            doctor.setId(2L + i);
+
+            ExaminationResult examinationResult = new ExaminationResult();
+            examinationResult.setId(1L + i);
+            examinationResult.setPatient(patient);
+            examinationResult.setDoctor(doctor);
+
+            List<Image> images = List.of(new Image());
+            examinationResult.setImages(images);
+
+            examinationResults.add(examinationResult);
+        }
+
+        when(userService.retrieveUserFromToken()).thenReturn(patient);
+        when(examinationResultRepository.findAllByPatientAndType(eq(patient), eq(type))).thenReturn(examinationResults);
+
+        List<ExaminationResultDto> resultDtos = examinationResultService.getExaminationResultByPatient(type.name());
+
+        assertNotNull(resultDtos);
+        assertEquals(2, resultDtos.size());
+        verify(userService, times(1)).retrieveUserFromToken();
+        verify(examinationResultRepository, times(1)).findAllByPatientAndType(eq(patient), eq(type));
+    }
+
+    @Test
+    public void testGetExaminationResultByDoctor() {
+        User doctor = new User();
+        doctor.setId(2L); // Assuming the doctor's ID is set to 2L
+
+        ExaminationType type = ExaminationType.MRI;
+        List<ExaminationResult> examinationResults = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            User patient = new User();
+            patient.setId(1L + i);
+
+            ExaminationResult examinationResult = new ExaminationResult();
+            examinationResult.setPatient(patient);
+            examinationResult.setDoctor(doctor);
+            examinationResult.setId(1L + i);
+
+            List<Image> savedImages = new ArrayList<>();
+            savedImages.add(new Image());
+            savedImages.add(new Image());
+            examinationResult.setImages(savedImages);
+
+            examinationResults.add(examinationResult);
+        }
+
+        when(userService.retrieveUserFromToken()).thenReturn(doctor);
+        when(examinationResultRepository.findAllByDoctorAndType(eq(doctor), eq(type))).thenReturn(examinationResults);
+
+        List<ExaminationResultDto> resultDtos = examinationResultService.getExaminationResultByDoctor(type.name());
+
+        verify(userService, times(1)).retrieveUserFromToken();
+        verify(examinationResultRepository, times(1)).findAllByDoctorAndType(eq(doctor), eq(type));
+        assertNotNull(resultDtos);
+        assertEquals(5, resultDtos.size());
+    }
+
+    @Test
+    public void testProcessExaminationResultPdf() {
+        Long examinationResultId = 1L;
+        ExaminationResult examinationResult = new ExaminationResult();
+        examinationResult.setId(examinationResultId);
+        examinationResult.setImages(List.of(new Image()));
+
+        when(examinationResultRepository.findById(examinationResultId)).thenReturn(java.util.Optional.of(examinationResult));
+        when(templateEngine.process(anyString(), any(Context.class))).thenReturn("<html></html>");
+
+        byte[] pdfContent = examinationResultService.processExaminationResultPdf(examinationResultId);
+
+        verify(examinationResultRepository, times(1)).findById(examinationResultId);
+        assertNotNull(pdfContent);
+    }
+
+    @Test
+    public void testGetAllExaminationResult() {
+        User patient = new User();
+        patient.setId(1L);
+
+        List<ExaminationResult> examinationResults = new ArrayList<>();
+        ExaminationResult examinationResult1 = new ExaminationResult();
+        examinationResult1.setId(1L);
+        examinationResult1.setPatient(patient);
+        examinationResult1.setDoctor(new User());
+        examinationResult1.setImages(List.of(new Image()));
+
+        ExaminationResult examinationResult2 = new ExaminationResult();
+        examinationResult2.setId(2L);
+        examinationResult2.setPatient(patient);
+        examinationResult2.setDoctor(new User());
+        examinationResult2.setImages(List.of(new Image()));
+
+        examinationResults.add(examinationResult1);
+        examinationResults.add(examinationResult2);
+
+        when(userService.retrieveUserFromToken()).thenReturn(patient);
+        when(examinationResultRepository.findAllByPatient(patient)).thenReturn(examinationResults);
+
+        List<ExaminationResultDto> resultDtos = examinationResultService.getAllExaminationResult();
+
+        assertNotNull(resultDtos);
+        assertEquals(2, resultDtos.size());
+        verify(examinationResultRepository, times(1)).findAllByPatient(patient);
+    }
+
+    @Test
+    public void testSaveExaminationResultWithIOException() throws IOException {
+        ExaminationRequestDto examinationRequestDto = new ExaminationRequestDto();
+        List<MultipartFile> images = List.of(new MockMultipartFile("image", "test.jpg", "image/jpeg", "test image content".getBytes()));
+
+        when(userService.retrieveUserFromToken()).thenReturn(new User()); // Mocked User
+
+        when(imageService.uploadImage(any(MultipartFile.class))).thenThrow(IOException.class);
+
+        assertThrows(RuntimeException.class, () -> {
+            examinationResultService.saveExaminationResult(examinationRequestDto, images);
+        });
     }
 }

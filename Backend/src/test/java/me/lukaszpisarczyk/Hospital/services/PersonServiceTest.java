@@ -5,17 +5,18 @@ import me.lukaszpisarczyk.Hospital.dto.SignupRequest;
 import me.lukaszpisarczyk.Hospital.models.Person;
 import me.lukaszpisarczyk.Hospital.repositories.PersonRepository;
 import me.lukaszpisarczyk.Hospital.services.implementation.PersonServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {
 
     @Mock
@@ -23,11 +24,6 @@ public class PersonServiceTest {
 
     @InjectMocks
     private PersonServiceImpl personService;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testSavePerson() {
