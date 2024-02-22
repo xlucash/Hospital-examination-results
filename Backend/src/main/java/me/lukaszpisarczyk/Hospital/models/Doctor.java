@@ -11,10 +11,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "doctors")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class Doctor {
     @Id
     @GeneratedValue
@@ -22,8 +18,41 @@ public class Doctor {
     private String licenseNumber;
     private String specialization;
 
+    public Doctor() {
+    }
+
+    public Doctor(Long id, String licenseNumber, String specialization) {
+        this.id = id;
+        this.licenseNumber = licenseNumber;
+        this.specialization = specialization;
+    }
+
     public Doctor(String licenseNumber, String specialization) {
         this.licenseNumber = licenseNumber;
+        this.specialization = specialization;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
 }

@@ -10,10 +10,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "addresses")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +30,71 @@ public class Address {
     @Pattern(regexp = "^\\d{2}-\\d{3}$", message = "Niepraawidłowy format kodu pocztowego")
     private String postalCode;
 
+    public Address() {
+    }
+
+    public Address(Long id, String streetAddress, String house, String apartment, String city, String postalCode) {
+        this.id = id;
+        this.streetAddress = streetAddress;
+        this.house = house;
+        this.apartment = apartment;
+        this.city = city;
+        this.postalCode = postalCode;
+    }
+
     public Address(String streetAddress, String house, String apartment, String city, String postalCode) {
         this.streetAddress = streetAddress;
         this.house = house;
         this.apartment = apartment;
         this.city = city;
+        this.postalCode = postalCode;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStreetAddress() {
+        return streetAddress;
+    }
+
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
+    }
+
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
+
+    public String getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(String apartment) {
+        this.apartment = apartment;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 }

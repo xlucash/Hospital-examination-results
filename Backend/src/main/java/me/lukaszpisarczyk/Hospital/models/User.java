@@ -17,10 +17,6 @@ import java.util.Set;
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
 })
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +46,19 @@ public class User {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+    public User() {
+    }
+
+    public User(Long id, String email, String password, Set<Role> roles, Person person, Address address, Doctor doctor) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.person = person;
+        this.address = address;
+        this.doctor = doctor;
+    }
+
     public User(String email, String password, Person person, Address address) {
         this.email = email;
         this.password = password;
@@ -62,6 +71,62 @@ public class User {
         this.password = password;
         this.person = person;
         this.address = address;
+        this.doctor = doctor;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
 }
