@@ -4,10 +4,12 @@ import me.lukaszpisarczyk.Hospital.models.Image;
 import me.lukaszpisarczyk.Hospital.repositories.ImageRepository;
 import me.lukaszpisarczyk.Hospital.services.implementation.ImageServiceImpl;
 import me.lukaszpisarczyk.Hospital.utils.ImageUtils;
+import org.apache.commons.lang3.exception.ContextedRuntimeException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +29,9 @@ class ImageServiceTest {
 
     @Mock
     private ImageRepository imageRepository;
+
+    @Mock
+    private ImageUtils imageUtils;
 
     @InjectMocks
     private ImageServiceImpl imageService;
