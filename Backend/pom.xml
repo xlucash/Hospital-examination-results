@@ -123,6 +123,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.15.3</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -150,23 +156,22 @@
 							<element>CLASS</element>
 							<excludes>
 								<exclude>*Test</exclude>
+								<exclude>**/security/**</exclude>
+								<exclude>**/models/**</exclude>
+								<exclude>**/Hospital/HospitalApplication.*</exclude>
 							</excludes>
 							<limits>
 								<limit>
-									<counter>INSTRUCTION</counter>
-									<value>COVEREDRATIO</value>
-									<minimum>0.00</minimum>
-								</limit>
-								<limit>
 									<counter>BRANCH</counter>
 									<value>COVEREDRATIO</value>
-									<minimum>0.00</minimum>
+									<minimum>0.80</minimum>
 								</limit>
 							</limits>
 						</rule>
 					</rules>
 					<excludes>
 						<exclude>**/security/**</exclude>
+						<exclude>**/models/**</exclude>
 						<exclude>**/Hospital/HospitalApplication.*</exclude>
 					</excludes>
 				</configuration>

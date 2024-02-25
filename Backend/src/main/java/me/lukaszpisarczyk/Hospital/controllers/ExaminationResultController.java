@@ -43,17 +43,13 @@ public class ExaminationResultController {
 
     @GetMapping("/{id}/pdf")
     public ResponseEntity<?> getExaminationResultPdf(@PathVariable Long id) {
-        try {
-            byte[] pdf = examinationResultService.processExaminationResultPdf(id);
+        byte[] pdf = examinationResultService.processExaminationResultPdf(id);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("filename", "badanie.pdf");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("filename", "badanie.pdf");
 
-            return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Błąd podczas generowania PDF", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
     }
 
     @GetMapping("/patient/{type}")

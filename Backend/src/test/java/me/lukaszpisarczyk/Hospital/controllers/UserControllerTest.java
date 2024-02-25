@@ -49,6 +49,9 @@ class UserControllerTest {
     @Autowired
     private DoctorRepository doctorRepository;
 
+    @Autowired
+    private ExaminationResultRepository examinationResultRepository;
+
     private Role userRole;
     private Address address;
     private Person person;
@@ -57,6 +60,7 @@ class UserControllerTest {
 
     @BeforeEach
     void setUp() {
+        examinationResultRepository.deleteAll();
         userRepository.deleteAll();
         roleRepository.deleteAll();
         personRepository.deleteAll();

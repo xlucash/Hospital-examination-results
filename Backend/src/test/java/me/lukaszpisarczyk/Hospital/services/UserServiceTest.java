@@ -75,7 +75,7 @@ class UserServiceTest {
     @Test
     void testRetrieveUserFromToken() {
         String email = "user@example.com";
-        User expectedUser = new User(); // Set up your user details
+        User expectedUser = new User();
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getName()).thenReturn(email);
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(expectedUser));
