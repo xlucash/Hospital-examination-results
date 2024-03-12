@@ -103,6 +103,93 @@
           <mat-paginator #rentgenPaginator [pageSize]="5" showFirstLastButtons></mat-paginator>
           <p *ngIf="rentgenResults.data.length === 0">Brak wyników USG.</p>
         </mat-tab>
+
+        <mat-tab label="Tomografia">
+          <mat-table *ngIf="tkResults.data.length > 0" [dataSource]="tkResults" class="mat-elevation-z8">
+            <!-- Title Column -->
+            <ng-container matColumnDef="title">
+              <mat-header-cell *matHeaderCellDef> Tytuł </mat-header-cell>
+              <mat-cell *matCellDef="let result"> {{ result.title }} </mat-cell>
+            </ng-container>
+            
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+              <mat-header-cell *matHeaderCellDef> Opis </mat-header-cell>
+              <mat-cell *matCellDef="let result"> {{ result.description }} </mat-cell>
+            </ng-container>
+            
+            <!-- Examination Date Column -->
+            <ng-container matColumnDef="examinationDate">
+              <mat-header-cell *matHeaderCellDef> Data badania </mat-header-cell>
+              <mat-cell *matCellDef="let result"> {{ result.examinationDate | date: 'dd.MM.yyyy' }} </mat-cell>
+            </ng-container>
+            
+            <!-- Doctor Column -->
+            <ng-container matColumnDef="doctor">
+              <mat-header-cell *matHeaderCellDef> Lekarz </mat-header-cell>
+              <mat-cell *matCellDef="let result">
+                {{ result.doctor?.person.name }} {{ result.doctor?.person.surname }}
+              </mat-cell>
+            </ng-container>
+            
+            <!-- Download PDF Column -->
+            <ng-container matColumnDef="download">
+              <mat-header-cell *matHeaderCellDef> Pobierz PDF </mat-header-cell>
+              <mat-cell *matCellDef="let result">
+                <button mat-raised-button color="primary" (click)="downloadPdf(result.id)">Pobierz PDF</button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <mat-paginator #rentgenPaginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+          <p *ngIf="tkResults.data.length === 0">Brak wyników TK.</p>
+        </mat-tab>
+
+        <mat-tab label="Rezonans">
+          <mat-table *ngIf="mriResults.data.length > 0" [dataSource]="mriResults" class="mat-elevation-z8">
+            <!-- Title Column -->
+            <ng-container matColumnDef="title">
+              <mat-header-cell *matHeaderCellDef> Tytuł </mat-header-cell>
+              <mat-cell *matCellDef="let result"> {{ result.title }} </mat-cell>
+            </ng-container>
+            
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+              <mat-header-cell *matHeaderCellDef> Opis </mat-header-cell>
+              <mat-cell *matCellDef="let result"> {{ result.description }} </mat-cell>
+            </ng-container>
+            
+            <!-- Examination Date Column -->
+            <ng-container matColumnDef="examinationDate">
+              <mat-header-cell *matHeaderCellDef> Data badania </mat-header-cell>
+              <mat-cell *matCellDef="let result"> {{ result.examinationDate | date: 'dd.MM.yyyy' }} </mat-cell>
+            </ng-container>
+            
+            <!-- Doctor Column -->
+            <ng-container matColumnDef="doctor">
+              <mat-header-cell *matHeaderCellDef> Lekarz </mat-header-cell>
+              <mat-cell *matCellDef="let result">
+                {{ result.doctor?.person.name }} {{ result.doctor?.person.surname }}
+              </mat-cell>
+            </ng-container>
+            
+            <!-- Download PDF Column -->
+            <ng-container matColumnDef="download">
+              <mat-header-cell *matHeaderCellDef> Pobierz PDF </mat-header-cell>
+              <mat-cell *matCellDef="let result">
+                <button mat-raised-button color="primary" (click)="downloadPdf(result.id)">Pobierz PDF</button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <mat-paginator #rentgenPaginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+          <p *ngIf="mriResults.data.length === 0">Brak wyników Rezonansu Magnetycznego.</p>
+        </mat-tab>
+
       </mat-tab-group>
     </mat-card-content>
   </mat-card>
