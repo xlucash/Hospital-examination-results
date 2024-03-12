@@ -47,7 +47,7 @@ public class SignupDoctorRequest {
     @Pattern(regexp = "^[a-zA-Z\\d\\s]{1,6}$", message = "Nieprawidłowy format numeru licencji")
     private String licenseNumber;
     @NotBlank
-    @Pattern(regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]{2,50}$", message = "Nieprawidłowy format specjalizacji")
+    @Pattern(regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\\s]{2,50}$", message = "Nieprawidłowy format specjalizacji")
     private String specialization;
 
     public SignupDoctorRequest() {
