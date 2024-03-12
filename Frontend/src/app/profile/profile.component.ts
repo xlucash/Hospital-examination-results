@@ -71,8 +71,8 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.usgResults.data = data.filter((result: { type: string; }) => result.type === 'USG');
         this.rentgenResults.data = data.filter((result: { type: string; }) => result.type === 'XRAY');
-        this.tkResults.data = data.filter((result: { type: string; }) => result.type === 'CT'); // Nowa linia dla TK
-        this.mriResults.data = data.filter((result: { type: string; }) => result.type === 'MRI'); // Nowa linia dla MRI
+        this.tkResults.data = data.filter((result: { type: string; }) => result.type === 'TK');
+        this.mriResults.data = data.filter((result: { type: string; }) => result.type === 'MRI');
         console.log(data);
 
         this.usgResults.paginator = this.usgPaginator;

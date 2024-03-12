@@ -58,7 +58,7 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
-          <mat-paginator #usgPaginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+          <mat-paginator #usgPaginator [pageSize]="3" showFirstLastButtons></mat-paginator>
           <p *ngIf="usgResults.data.length === 0">Brak wyników USG.</p>
         </mat-tab>
         <mat-tab label="Rentgen">
@@ -100,7 +100,7 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
-          <mat-paginator #rentgenPaginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+          <mat-paginator #rentgenPaginator [pageSize]="3" showFirstLastButtons></mat-paginator>
           <p *ngIf="rentgenResults.data.length === 0">Brak wyników USG.</p>
         </mat-tab>
 
@@ -143,7 +143,7 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
-          <mat-paginator #rentgenPaginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+          <mat-paginator #rentgenPaginator [pageSize]="3" showFirstLastButtons></mat-paginator>
           <p *ngIf="tkResults.data.length === 0">Brak wyników TK.</p>
         </mat-tab>
 
@@ -186,7 +186,7 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
-          <mat-paginator #rentgenPaginator [pageSize]="5" showFirstLastButtons></mat-paginator>
+          <mat-paginator #rentgenPaginator [pageSize]="3" showFirstLastButtons></mat-paginator>
           <p *ngIf="mriResults.data.length === 0">Brak wyników Rezonansu Magnetycznego.</p>
         </mat-tab>
 

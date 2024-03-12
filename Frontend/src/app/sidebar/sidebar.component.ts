@@ -34,7 +34,7 @@ export class SidebarComponent implements OnInit {
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();
       this.roles = user.roles;
-      this.isDoctor = this.roles.includes('ROLE_DOCTOR');
+      this.isDoctor = this.roles.includes('ROLE_DOCTOR') || this.roles.includes('ROLE_ADMIN');
     }
   }
 
