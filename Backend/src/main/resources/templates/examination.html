@@ -3,46 +3,99 @@
 <head>
     <title>Wynik Badania</title>
     <meta charset="UTF-8"/>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 297mm;
+            width: 210mm;
+            font-family: 'Open Sans', sans-serif;
+        }
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        @media print {
+            html, body {
+                width: 210mm;
+                height: 297mm;
+            }
+            .container {
+                box-shadow: none;
+                margin: 15mm;
+                height: 267mm;
+                width: 180mm;
+            }
+            .examination-image {
+                width: 600px;
+                height: auto;
+            }
+        }
+        .container {
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 297mm;
+        }
+        h1, h2, h3 {
+            color: #555;
+        }
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        strong {
+            font-weight: 600;
+        }
+        p {
+            margin: 10px 0;
+        }
+
         .examination-image {
-            width: 600px;
-            height: auto;
+            width: 500px;
+            height: 350px;
         }
     </style>
 </head>
 <body>
-<h1>Wynik Badania <span th:text="${examination.type}"></span></h1>
+<div class="container">
+    <h1>Wynik Badania <span th:text="${examination.type}">USG</span></h1>
     <p>
-        <strong>Data Badania:</strong> <span th:text="${examination.examinationDate}"></span>
+        <strong>Data Badania:</strong> <span th:text="${examination.examinationDate}">2024-01-20</span>
     </p>
-<h2>Pacjent</h2>
+    <h2>Pacjent</h2>
     <p>
-        <strong>Imię:</strong> <span th:text="${examination.patient.person.name}"></span>
-        <strong>Nazwisko:</strong> <span th:text="${examination.patient.person.surname}"></span>
-    </p>
-    <p>
-        <strong>PESEL:</strong> <span th:text="${examination.patient.person.pesel}"></span>
+        <strong>Imię:</strong> <span th:text="${examination.patient.person.name}">Kacper</span>
+        <strong>Nazwisko:</strong> <span th:text="${examination.patient.person.surname}">Nowacki</span>
     </p>
     <p>
-        <strong>Adres:</strong> <span th:text="${examination.patient.address.streetAddress}"></span>
-        <span th:text="${examination.patient.address.house}"></span> /
-        <span th:text="${examination.patient.address.apartment}"></span>,
-        <span th:text="${examination.patient.address.postalCode}"></span>
-        <span th:text="${examination.patient.address.city}"></span>
-    </p>
-<h2 th:text="${examination.title}"></h2>
-    <p>
-        <strong>Opis:</strong> <span th:text="${examination.description}"></span>
+        <strong>PESEL:</strong> <span th:text="${examination.patient.person.pesel}">01234567891</span>
     </p>
     <p>
-        <h3>Zdjęcia</h3>
-        <div th:each="base64Image : ${images}">
-            <img class="examination-image" th:src="'data:image/png;base64,' + ${base64Image}" />
-        </div>
+        <strong>Adres:</strong> <span th:text="${examination.patient.address.streetAddress}">Dolna</span>
+        <span th:text="${examination.patient.address.house}">75</span> /
+        <span th:text="${examination.patient.address.apartment}">5</span>,
+        <span th:text="${examination.patient.address.postalCode}">19-122</span>
+        <span th:text="${examination.patient.address.city}">Warszawa</span>
     </p>
-<h2>Personel realizujący</h2>
+    <h2 th:text="${examination.title}">Badanie USG</h2>
     <p>
-        lekarz: <span th:text="${examination.doctor.person.name}"></span> <span th:text="${examination.doctor.person.surname}"></span>
+        <strong>Opis:</strong> <span th:text="${examination.description}">opis badania</span>
     </p>
+    <h2>Personel realizujący</h2>
+    <p>
+        lekarz: <span th:text="${examination.doctor.person.name}">Jan</span> <span th:text="${examination.doctor.person.surname}">Nowak</span>
+        spec. <span th:text="${examination.doctor.doctor.specialization}">Ginekologia</span>
+    </p>
+    <h3>Zdjęcia</h3>
+    <div th:each="base64Image : ${images}">
+        <img class="examination-image" th:src="'data:image/png;base64,' + ${base64Image}" />
+    </div>
+</div>
 </body>
 </html>
