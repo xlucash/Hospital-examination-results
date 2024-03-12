@@ -2,7 +2,6 @@ package me.lukaszpisarczyk.Hospital.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.lukaszpisarczyk.Hospital.dto.ExaminationRequestDto;
-import me.lukaszpisarczyk.Hospital.dto.ExaminationResultDto;
 import me.lukaszpisarczyk.Hospital.enums.ExaminationType;
 import me.lukaszpisarczyk.Hospital.enums.UserRole;
 import me.lukaszpisarczyk.Hospital.models.*;
@@ -25,7 +24,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

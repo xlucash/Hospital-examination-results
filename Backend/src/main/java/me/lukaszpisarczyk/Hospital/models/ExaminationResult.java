@@ -3,10 +3,6 @@ package me.lukaszpisarczyk.Hospital.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import me.lukaszpisarczyk.Hospital.enums.ExaminationType;
 import org.springframework.format.annotation.DateTimeFormat;
 

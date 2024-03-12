@@ -1,10 +1,6 @@
 package me.lukaszpisarczyk.Hospital.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import me.lukaszpisarczyk.Hospital.enums.UserRole;
 
 @Entity

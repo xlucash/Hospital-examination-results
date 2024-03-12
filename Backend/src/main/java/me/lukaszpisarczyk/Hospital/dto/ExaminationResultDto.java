@@ -1,7 +1,5 @@
 package me.lukaszpisarczyk.Hospital.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 import me.lukaszpisarczyk.Hospital.enums.ExaminationType;
 
 import java.time.LocalDate;

@@ -1,8 +1,7 @@
 package me.lukaszpisarczyk.Hospital.models;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Type;
+import lombok.Builder;
 
 @Entity
 @Builder
