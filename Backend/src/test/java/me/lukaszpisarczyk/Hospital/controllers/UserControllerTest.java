@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -79,6 +80,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     public void getUserByEmail_ShouldReturnUser() throws Exception {
         String email = "test@example.com";
 
@@ -89,6 +91,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void getUserByPesel_ShouldReturnUser() throws Exception {
         String pesel = "12345678901";
 
@@ -99,6 +102,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void getUserById_ShouldReturnUser() throws Exception {
         mockMvc.perform(get("/api/user/{id}", user.getId())
                         .contentType(MediaType.APPLICATION_JSON))
@@ -107,6 +111,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void getAllPatients_ShouldReturnAllUsers() throws Exception {
         mockMvc.perform(get("/api/user/all")
                         .contentType(MediaType.APPLICATION_JSON))

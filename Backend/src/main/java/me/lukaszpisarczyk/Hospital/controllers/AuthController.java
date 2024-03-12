@@ -7,6 +7,7 @@ import me.lukaszpisarczyk.Hospital.security.jwt.JwtUtils;
 import me.lukaszpisarczyk.Hospital.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,6 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/register/doctor")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR')")
     public ResponseEntity<?> registerDoctor(@Valid @RequestBody SignupDoctorRequest signUpRequest) {
         MessageResponse messageResponse = authService.registerDoctor(signUpRequest);
         if (messageResponse.getMessage().startsWith("Error")) {

@@ -135,6 +135,7 @@ class ExaminationResultControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "test@example.com", roles = "PATIENT")
     public void getExaminationResult_ShouldReturnOk() throws Exception {
         mockMvc.perform(get("/api/examination-result/{id}", examinationResult.getId()))
                 .andExpect(status().isOk())
@@ -143,6 +144,7 @@ class ExaminationResultControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "test@example.com", roles = "PATIENT")
     public void getExaminationResultPdf_ShouldReturnPdf() throws Exception {
         mockMvc.perform(get("/api/examination-result/{id}/pdf", examinationResult.getId()))
                 .andExpect(status().isOk())

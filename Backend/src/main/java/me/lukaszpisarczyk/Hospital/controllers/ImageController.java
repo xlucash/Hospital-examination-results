@@ -5,6 +5,7 @@ import me.lukaszpisarczyk.Hospital.services.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,12 +24,14 @@ public class ImageController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR') or hasRole('PATIENT') or hasRole('USER')")
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile imageFile) throws IOException {
         Image uploadImage = imageService.uploadImage(imageFile);
         return ResponseEntity.status(HttpStatus.CREATED).body(uploadImage);
     }
 
     @PostMapping("/multiple")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR') or hasRole('PATIENT') or hasRole('USER')")
     public ResponseEntity<?> uploadMultipleImages(@RequestParam("image") List<MultipartFile> images) throws IOException {
         List<ResponseEntity<?>> list = new ArrayList<>();
         for (MultipartFile image : images) {
@@ -44,6 +47,7 @@ public class ImageController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR') or hasRole('PATIENT') or hasRole('USER')")
     public ResponseEntity<?> downloadImage(@PathVariable("id") Long imageId) {
         byte[] imageData = imageService.downloadImage(imageId);
         return ResponseEntity.status(HttpStatus.OK)

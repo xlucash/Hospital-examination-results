@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -35,6 +36,7 @@ class ImageControllerTest {
     private ImageService imageService;
 
     @Test
+    @WithMockUser(username = "doctor@example.com", password = "testdoctor123", roles = "DOCTOR")
     void shouldUploadImage() throws Exception {
         MockMultipartFile file = new MockMultipartFile(
                 "image",
@@ -48,6 +50,7 @@ class ImageControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "doctor@example.com", password = "testdoctor123", roles = "DOCTOR")
     void shouldUploadMultipleImages() throws Exception {
         MockMultipartFile firstFile = new MockMultipartFile(
                 "image",
@@ -71,6 +74,7 @@ class ImageControllerTest {
 
 
     @Test
+    @WithMockUser(username = "doctor@example.com", password = "testdoctor123", roles = "DOCTOR")
     void shouldDownloadImage() throws Exception {
         imageRepository.deleteAll();
         Image imageToSave = Image.builder()

@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +25,7 @@ public class ExaminationResultController {
     }
 
     @PostMapping(consumes = {"multipart/form-data"})
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR')")
     public ResponseEntity<?> saveExaminationResult(
             @RequestPart("examinationResult")ExaminationRequestDto examinationRequestDto,
             @RequestPart("image") List<MultipartFile> images) {
@@ -32,6 +34,7 @@ public class ExaminationResultController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR') or hasRole('PATIENT') or hasRole('USER')")
     public ResponseEntity<?> getExaminationResult(@PathVariable Long id) {
         try {
             ExaminationResultDto examinationResult = examinationResultService.getExaminationResult(id);
@@ -42,6 +45,7 @@ public class ExaminationResultController {
     }
 
     @GetMapping("/{id}/pdf")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR') or hasRole('PATIENT') or hasRole('USER')")
     public ResponseEntity<?> getExaminationResultPdf(@PathVariable Long id) {
         byte[] pdf = examinationResultService.processExaminationResultPdf(id);
 
@@ -53,18 +57,21 @@ public class ExaminationResultController {
     }
 
     @GetMapping("/patient/{type}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR') or hasRole('PATIENT') or hasRole('USER')")
     public ResponseEntity<?> getExaminationResultByPatient(@PathVariable String type) {
     	List<ExaminationResultDto> examinationResult = examinationResultService.getExaminationResultByPatient(type);
     	return ResponseEntity.status(HttpStatus.OK).body(examinationResult);
     }
 
     @GetMapping("/doctor/{type}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR') or hasRole('PATIENT') or hasRole('USER')")
     public ResponseEntity<?> getExaminationResultByDoctor(@PathVariable String type) {
     	List<ExaminationResultDto> examinationResult = examinationResultService.getExaminationResultByDoctor(type);
     	return ResponseEntity.status(HttpStatus.OK).body(examinationResult);
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCTOR') or hasRole('PATIENT') or hasRole('USER')")
     public ResponseEntity<?> getAllExaminationResult() {
     	List<ExaminationResultDto> examinationResult = examinationResultService.getAllExaminationResult();
     	return ResponseEntity.status(HttpStatus.OK).body(examinationResult);
